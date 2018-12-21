@@ -64,7 +64,10 @@ def fix_bad_unicode(text, normalization="NFC"):
         str
     """
     # fix if the unicode is fucked up
-    text = text.encode().decode("unicode-escape")
+    try:
+        text = text.encode().decode("unicode-escape")
+    except:
+        pass
 
     return fix_text(text, normalization=normalization)
 
@@ -158,7 +161,6 @@ def to_zero_digits(text):
     for n in numbers:
         if n == "":
             continue
-        print(n)
         text = text.replace(n, re.sub(r"\d", "0", n))
     return text
 
