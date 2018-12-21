@@ -149,7 +149,7 @@ def replace_numbers(text, replace_with="<NUMBER>"):
     return constants.NUMBERS_REGEX.sub(replace_with, text)
 
 
-def zero_digits(text):
+def to_zero_digits(text):
     """
     All digits are reduced to 0. 123.34 to 000.00
     """
@@ -298,7 +298,7 @@ def clean(
     if no_numbers is True:
         text = replace_numbers(text)
     if zero_digits:
-        text = zero_digits(text)
+        text = to_zero_digits(text)
     if no_contractions is True:
         text = unpack_contractions(text)
     if no_accents is True:
