@@ -246,6 +246,7 @@ def clean(
     no_emails=False,
     no_phone_numbers=False,
     no_numbers=False,
+    zero_digits=False,
     no_currency_symbols=False,
     no_punct=False,
     no_contractions=False,
@@ -296,6 +297,8 @@ def clean(
         text = replace_phone_numbers(text)
     if no_numbers is True:
         text = replace_numbers(text)
+    if zero_digits:
+        text = zero_digits(text)
     if no_contractions is True:
         text = unpack_contractions(text)
     if no_accents is True:
