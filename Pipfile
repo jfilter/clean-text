@@ -1,0 +1,17 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+pylint = "*"
+black = "*"
+
+[packages]
+cleantext = {editable = true,extras = ["gpl"],path = "."}
+ftfy = "*"
+unidecode = "*"
+pytest = "*"
+
+[requires]
+python_version = "3.7"
