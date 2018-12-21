@@ -81,8 +81,13 @@ def test_remove_accents():
         _ = cleantext.remove_accents(text, method="foo")
 
 
-def test_fix_unicode():
+def text_to_ascii_unicode():
     text = (
         "and install a \\u2018new\\u2019 society in their"
     )  # and install a ‘new’ society in their
     assert cleantext.fix_bad_unicode(text) == "and install a 'new' society in their"
+
+
+def test_zero_digits():
+    text = "in the 1970s there was 12.3 and 111 11 33"
+    assert cleantext.zero_digits(text) == "in the 1970s there was 00.0 and 000 00 00"

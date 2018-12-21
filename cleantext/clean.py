@@ -34,9 +34,7 @@ strange_double_quotes = [
     "〟",
     "＂",
 ]
-strange_single_quotes = ["‘", "‛", "’", "❛", "❜", "`", "´", '‘','’']
-
- 
+strange_single_quotes = ["‘", "‛", "’", "❛", "❜", "`", "´", "‘", "’"]
 
 
 def fix_strange_quotes(text):
@@ -68,13 +66,10 @@ def fix_bad_unicode(text, normalization="NFC"):
     # fix if the unicode is fucked up
     text = text.encode().decode("unicode-escape")
 
-    # normalize quotes before
-    text = fix_strange_quotes(text)
-
     return fix_text(text, normalization=normalization)
 
 
-def ascii_unicode(text):
+def to_ascii_unicode(text):
     """
     Try to represent unicode data in ascii characters similar to what a human
     with a US keyboard would choose.
@@ -82,6 +77,10 @@ def ascii_unicode(text):
     gets from Latin-based alphabets. It's based on hand-tuned character mappings
     that also contain ascii approximations for symbols and non-Latin alphabets.
     """
+
+    # normalize quotes before
+    text = fix_strange_quotes(text)
+
     return unidecode(text)
 
 
@@ -148,6 +147,20 @@ def replace_phone_numbers(text, replace_with="<PHONE>"):
 def replace_numbers(text, replace_with="<NUMBER>"):
     """Replace all numbers in ``text`` str with ``replace_with`` str."""
     return constants.NUMBERS_REGEX.sub(replace_with, text)
+
+
+def zero_digits(text):
+    """
+    All digits are reduced to 0. 123.34 to 000.00
+    """
+    numbers = constants.NUMBERS_REGEX.findall(text)
+    numbers = sum([list(n) for n in numbers], [])
+    for n in numbers:
+        if n == "":
+            continue
+        print(n)
+        text = text.replace(n, re.sub(r"\d", "0", n))
+    return text
 
 
 def replace_currency_symbols(text, replace_with=None):
@@ -224,18 +237,11 @@ def remove_accents(text, method="unicode"):
         raise ValueError(msg)
 
 
-def zero_digits(text):
-    """
-    All digits are reduced to 0. 123.34 to 000.00
-    """
-    return re.sub(r"\d", "0", text)
-
-
 def clean(
     text,
-    fix_unicode=False,
-    lower=False,
-    ascii=False,
+    fix_unicode=True,
+    to_ascii=True,
+    lower=True,
     no_urls=False,
     no_emails=False,
     no_phone_numbers=False,
@@ -253,8 +259,8 @@ def clean(
         fix_unicode (bool): if True, fix "broken" unicode such as
             mojibake and garbled HTML entities
         lower (bool): if True, all text is lower-cased
-        ascii (bool): if True, convert non-ascii characters
-            into their closest ascii equivalents
+        to_ascii (bool): if True, convert non-to_ascii characters
+            into their closest to_ascii equivalents
         no_urls (bool): if True, replace all URL strings with '*URL*'
         no_emails (bool): if True, replace all email strings with '*EMAIL*'
         no_phone_numbers (bool): if True, replace all phone number strings
@@ -268,7 +274,7 @@ def clean(
         no_contractions (bool): if True, replace *English* contractions
             with their unshortened forms
         no_accents (bool): if True, replace all accented characters
-            with unaccented versions; NB: if `ascii` is True, this option
+            with unaccented versions; NB: if `to_ascii` is True, this option
             is redundant
     Returns:
         str: input ``text`` processed according to function args
@@ -278,8 +284,10 @@ def clean(
     """
     if fix_unicode is True:
         text = fix_bad_unicode(text, normalization="NFC")
-    if ascii is True:
-        text = ascii_unicode(text)
+    if no_currency_symbols is True:
+        text = replace_currency_symbols(text)
+    if to_ascii is True:
+        text = to_ascii_unicode(text)
     if no_urls is True:
         text = replace_urls(text)
     if no_emails is True:
@@ -288,8 +296,6 @@ def clean(
         text = replace_phone_numbers(text)
     if no_numbers is True:
         text = replace_numbers(text)
-    if no_currency_symbols is True:
-        text = replace_currency_symbols(text)
     if no_contractions is True:
         text = unpack_contractions(text)
     if no_accents is True:
