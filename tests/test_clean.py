@@ -90,4 +90,4 @@ def text_to_ascii_unicode():
 
 def test_zero_digits():
     text = "in the 1970s there was 12.3 and 111 11 33"
-    assert cleantext.zero_digits(text) == "in the 1970s there was 00.0 and 000 00 00"
+    assert cleantext.to_zero_digits(text) == "in the 1970s there was 00.0 and 000 00 00"
