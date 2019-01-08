@@ -156,13 +156,7 @@ def to_zero_digits(text):
     """
     All digits are reduced to 0. 123.34 to 000.00
     """
-    numbers = constants.NUMBERS_REGEX.findall(text)
-    numbers = sum([list(n) for n in numbers], [])
-    for n in numbers:
-        if n == "":
-            continue
-        text = text.replace(n, re.sub(r"\d", "0", n))
-    return text
+    return re.sub(r"\d", "0", text)
 
 
 def replace_currency_symbols(text, replace_with=None):
