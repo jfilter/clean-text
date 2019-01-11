@@ -6,7 +6,8 @@ import cleantext
 def test_normalize_whitespace():
     text = "Hello, world!  Hello...\t \tworld?\n\nHello:\r\n\n\nWorld. "
     proc_text = "Hello, world! Hello... world?\nHello:\nWorld."
-    assert cleantext.normalize_whitespace(text) == proc_text
+    assert cleantext.normalize_whitespace(text, no_line_breaks=False) == proc_text
+    assert cleantext.normalize_whitespace(" dd\nd  ", no_line_breaks=True) == "dd d"
 
 
 def test_unpack_contractions():
@@ -100,3 +101,4 @@ def test_zero_digits():
         cleantext.to_zero_digits(text)
         == "0 Golf Records More 'Unbreakable' Than the Warriors' 00 Wins"
     )
+

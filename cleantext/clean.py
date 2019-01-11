@@ -87,14 +87,18 @@ def to_ascii_unicode(text):
     return unidecode(text)
 
 
-def normalize_whitespace(text):
+def normalize_whitespace(text, no_line_breaks):
     """
     Given ``text`` str, replace one or more spacings with a single space, and one
     or more linebreaks with a single newline. Also strip leading/trailing whitespace.
     """
-    return constants.NONBREAKING_SPACE_REGEX.sub(
-        " ", constants.LINEBREAK_REGEX.sub(r"\n", text)
-    ).strip()
+    if no_line_breaks:
+        text = constants.MULTI_WHITESPACE_TO_ONE_REGEX.sub(" ", text)
+    else:
+        text = constants.NONBREAKING_SPACE_REGEX.sub(
+            " ", constants.LINEBREAK_REGEX.sub(r"\n", text)
+        )
+    return text.strip()
 
 
 def unpack_contractions(text):
@@ -247,6 +251,7 @@ def clean(
     no_punct=False,
     no_contractions=False,
     no_accents=False,
+    no_line_breaks=False,
 ):
     """
     Normalize various aspects of a raw text doc before parsing it with Spacy.
@@ -303,7 +308,7 @@ def clean(
         text = remove_punct(text)
     if lower is True:
         text = text.lower()
-    # always normalize whitespace; treat linebreaks separately from spacing
-    text = normalize_whitespace(text)
+    # always normalize whitespace
+    text = normalize_whitespace(text, no_line_breaks)
 
     return text

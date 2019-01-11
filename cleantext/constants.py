@@ -54,6 +54,9 @@ CURRENCY_REGEX = re.compile(
     "({})+".format("|".join(re.escape(c) for c in CURRENCIES.keys()))
 )
 LINEBREAK_REGEX = re.compile(r"((\r\n)|[\n\v])+")
+
+MULTI_WHITESPACE_TO_ONE_REGEX = re.compile(r"\s+")
+
 NONBREAKING_SPACE_REGEX = re.compile(r"(?!\n)\s+")
 URL_REGEX = re.compile(
     r"(?:^|(?<![\w/.]))"
