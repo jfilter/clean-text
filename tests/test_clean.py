@@ -10,12 +10,20 @@ def test_normalize_whitespace():
     assert cleantext.normalize_whitespace(" dd\nd  ", no_line_breaks=True) == "dd d"
 
 
-
-
 def test_replace_urls():
-    text = "I learned everything I know from www.stackoverflow.com and http://wikipedia.org/ and Mom."
-    proc_text = "I learned everything I know from *URL* and *URL* and Mom."
-    assert cleantext.replace_urls(text, "*URL*") == proc_text
+    texts = [
+        [
+            "I learned everything I know from www.stackoverflow.com and http://wikipedia.org/ and Mom.",
+            "I learned everything I know from *URL* and *URL* and Mom.",
+        ],
+        [
+            "There's a bunch of references in that one scene alone, including [Moana](https://en.wikipedia.org/wiki/Moana_%282016_film%29), which comes out later this year.",
+            "There's a bunch of references in that one scene alone, including [Moana](*URL*), which comes out later this year.",
+        ],
+    ]
+
+    for text, proc_text in texts:
+        assert cleantext.replace_urls(text, "*URL*") == proc_text
 
 
 def test_replace_emails():
@@ -88,4 +96,3 @@ def test_zero_digits():
         cleantext.to_zero_digits(text)
         == "0 Golf Records More 'Unbreakable' Than the Warriors' 00 Wins"
     )
-

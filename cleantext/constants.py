@@ -58,11 +58,14 @@ LINEBREAK_REGEX = re.compile(r"((\r\n)|[\n\v])+")
 MULTI_WHITESPACE_TO_ONE_REGEX = re.compile(r"\s+")
 
 NONBREAKING_SPACE_REGEX = re.compile(r"(?!\n)\s+")
+
+# source: https://gist.github.com/dperini/729294
+# @jfilter: I guess it was changed
 URL_REGEX = re.compile(
-    r"(?:^|(?<![\w/.]))"
+    r"(?:^|(?<![\w\/\.]))"
     # protocol identifier
     # r"(?:(?:https?|ftp)://)"  <-- alt?
-    r"(?:(?:https?://|ftp://|www\d{0,3}\.))"
+    r"(?:(?:https?:\/\/|ftp:\/\/|www\d{0,3}\.))"
     # user:pass authentication
     r"(?:\S+(?::\S*)?@)?" r"(?:"
     # IP address exclusion
@@ -80,27 +83,17 @@ URL_REGEX = re.compile(
     r"(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))"
     r"|"
     # host name
-    r"(?:(?:[a-z\u00a1-\uffff0-9]-?)*[a-z\u00a1-\uffff0-9]+)"
+    r"(?:(?:[a-z\\u00a1-\\uffff0-9]-?)*[a-z\\u00a1-\\uffff0-9]+)"
     # domain name
-    r"(?:\.(?:[a-z\u00a1-\uffff0-9]-?)*[a-z\u00a1-\uffff0-9]+)*"
+    r"(?:\.(?:[a-z\\u00a1-\\uffff0-9]-?)*[a-z\\u00a1-\\uffff0-9]+)*"
     # TLD identifier
-    r"(?:\.(?:[a-z\u00a1-\uffff]{2,}))" r")"
+    r"(?:\.(?:[a-z\\u00a1-\\uffff]{2,}))" r")"
     # port number
     r"(?::\d{2,5})?"
     # resource path
-    r"(?:/\S*)?" r"(?:$|(?![\w?!+&/]))",
+    r"(?:\/[^\)\]\}\s]*)?",
+    # r"(?:$|(?![\w?!+&\/\)]))",
+    # @jfilter: I removed the line above from the regex because I don't understand what it is used for, maybe it was useful?
+    # But I made sure that it does not include ), ] and } in the URL.
     flags=re.UNICODE | re.IGNORECASE,
-)  # source: https://gist.github.com/dperini/729294
-
-SHORT_URL_REGEX = re.compile(
-    r"(?:^|(?<![\w/.]))"
-    # optional scheme
-    r"(?:(?:https?://)?)"
-    # domain
-    r"(?:\w-?)*?\w+(?:\.[a-z]{2,12}){1,3}" r"/"
-    # hash
-    r"[^\s.,?!'\"|+]{2,12}" r"(?:$|(?![\w?!+&/]))",
-    flags=re.IGNORECASE,
-)
-
 )
