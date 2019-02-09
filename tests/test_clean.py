@@ -10,10 +10,6 @@ def test_normalize_whitespace():
     assert cleantext.normalize_whitespace(" dd\nd  ", no_line_breaks=True) == "dd d"
 
 
-def test_unpack_contractions():
-    text = "Y'all can't believe you're not who they've said I'll become, but shouldn't."
-    proc_text = "You all can not believe you are not who they have said I will become, but should not."
-    assert cleantext.unpack_contractions(text) == proc_text
 
 
 def test_replace_urls():
@@ -71,15 +67,6 @@ def test_replace_currency_symbols():
             cleantext.replace_currency_symbols(text, replace_with="*CUR* ")
             == proc_text2
         )
-
-
-def test_remove_accents():
-    text = "El niño se asustó -- qué miedo!"
-    proc_text = "El nino se asusto -- que miedo!"
-    assert cleantext.remove_accents(text, method="unicode") == proc_text
-    assert cleantext.remove_accents(text, method="ascii") == proc_text
-    with pytest.raises(Exception):
-        _ = cleantext.remove_accents(text, method="foo")
 
 
 def text_to_ascii_unicode():

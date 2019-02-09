@@ -101,44 +101,12 @@ def normalize_whitespace(text, no_line_breaks):
     return text.strip()
 
 
-def unpack_contractions(text):
-    """
-    Replace *English* contractions in ``text`` str with their unshortened forms.
-    N.B. The "'d" and "'s" forms are ambiguous (had/would, is/has/possessive),
-    so are left as-is.
-    """
-    # standard
-    text = re.sub(
-        r"(\b)([Aa]re|[Cc]ould|[Dd]id|[Dd]oes|[Dd]o|[Hh]ad|[Hh]as|[Hh]ave|[Ii]s|[Mm]ight|[Mm]ust|[Ss]hould|[Ww]ere|[Ww]ould)n't",
-        r"\1\2 not",
-        text,
-    )
-    text = re.sub(
-        r"(\b)([Hh]e|[Ii]|[Ss]he|[Tt]hey|[Ww]e|[Ww]hat|[Ww]ho|[Yy]ou)'ll",
-        r"\1\2 will",
-        text,
-    )
-    text = re.sub(r"(\b)([Tt]hey|[Ww]e|[Ww]hat|[Ww]ho|[Yy]ou)'re", r"\1\2 are", text)
-    text = re.sub(
-        r"(\b)([Ii]|[Ss]hould|[Tt]hey|[Ww]e|[Ww]hat|[Ww]ho|[Ww]ould|[Yy]ou)'ve",
-        r"\1\2 have",
-        text,
-    )
-    # non-standard
-    text = re.sub(r"(\b)([Cc]a)n't", r"\1\2n not", text)
-    text = re.sub(r"(\b)([Ii])'m", r"\1\2 am", text)
-    text = re.sub(r"(\b)([Ll]et)'s", r"\1\2 us", text)
-    text = re.sub(r"(\b)([Ww])on't", r"\1\2ill not", text)
-    text = re.sub(r"(\b)([Ss])han't", r"\1\2hall not", text)
-    text = re.sub(r"(\b)([Yy])(?:'all|a'll)", r"\1\2ou all", text)
-    return text
-
-
 def replace_urls(text, replace_with="<URL>"):
     """Replace all URLs in ``text`` str with ``replace_with`` str."""
-    return constants.URL_REGEX.sub(
-        replace_with, constants.SHORT_URL_REGEX.sub(replace_with, text)
-    )
+    # return constants.URL_REGEX.sub(
+    #     replace_with, constants.SHORT_URL_REGEX.sub(replace_with, text)
+    # )
+    return constants.URL_REGEX.sub(replace_with, text)
 
 
 def replace_emails(text, replace_with="<EMAIL>"):
@@ -205,38 +173,6 @@ def remove_punct(text, marks=None):
         return text.translate(constants.PUNCT_TRANSLATE_UNICODE)
 
 
-def remove_accents(text, method="unicode"):
-    """
-    Remove accents from any accented unicode characters in ``text`` str, either by
-    transforming them into ascii equivalents or removing them entirely.
-    Args:
-        text (str): raw text
-        method ({'unicode', 'ascii'}): if 'unicode', remove accented
-            char for any unicode symbol with a direct ASCII equivalent; if 'ascii',
-            remove accented char for any unicode symbol
-            NB: the 'ascii' method is notably faster than 'unicode', but less good
-    Returns:
-        str
-    Raises:
-        ValueError: if ``method`` is not in {'unicode', 'ascii'}
-    """
-    if method == "unicode":
-        return "".join(
-            c
-            for c in unicodedata.normalize("NFKD", text)
-            if not unicodedata.combining(c)
-        )
-    elif method == "ascii":
-        return (
-            unicodedata.normalize("NFKD", text)
-            .encode("ascii", errors="ignore")
-            .decode("ascii")
-        )
-    else:
-        msg = '`method` must be either "unicode" and "ascii", not {}'.format(method)
-        raise ValueError(msg)
-
-
 def clean(
     text,
     fix_unicode=True,
@@ -249,8 +185,6 @@ def clean(
     zero_digits=False,
     no_currency_symbols=False,
     no_punct=False,
-    no_contractions=False,
-    no_accents=False,
     no_line_breaks=False,
 ):
     """
@@ -273,11 +207,6 @@ def clean(
             with their standard 3-letter abbreviations
         no_punct (bool): if True, remove all punctuation (replace with
             empty string)
-        no_contractions (bool): if True, replace *English* contractions
-            with their unshortened forms
-        no_accents (bool): if True, replace all accented characters
-            with unaccented versions; NB: if `to_ascii` is True, this option
-            is redundant
     Returns:
         str: input ``text`` processed according to function args
     Warning:
@@ -300,10 +229,6 @@ def clean(
         text = replace_numbers(text)
     if zero_digits:
         text = to_zero_digits(text)
-    if no_contractions is True:
-        text = unpack_contractions(text)
-    if no_accents is True:
-        text = remove_accents(text, method="unicode")
     if no_punct is True:
         text = remove_punct(text)
     if lower is True:

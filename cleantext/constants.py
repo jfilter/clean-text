@@ -103,12 +103,4 @@ SHORT_URL_REGEX = re.compile(
     flags=re.IGNORECASE,
 )
 
-# regexes for cleaning up crufty terms
-DANGLING_PARENS_TERM_RE = re.compile(
-    r"(?:\s|^)(\()\s{1,2}(.*?)\s{1,2}(\))(?:\s|$)", flags=re.UNICODE
 )
-LEAD_TAIL_CRUFT_TERM_RE = re.compile(r"^([^\w(-] ?)+|([^\w).!?] ?)+$", flags=re.UNICODE)
-LEAD_HYPHEN_TERM_RE = re.compile(r"^-([^\W\d_])", flags=re.UNICODE)
-NEG_DIGIT_TERM_RE = re.compile(r"(-) (\d)", flags=re.UNICODE)
-WEIRD_HYPHEN_SPACE_TERM_RE = re.compile(r"(?<=[^\W\d]) (-[^\W\d])", flags=re.UNICODE)
-WEIRD_APOSTR_SPACE_TERM_RE = re.compile(r"([^\W\d]+) ('[a-z]{1,2}\b)", flags=re.UNICODE)
