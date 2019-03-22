@@ -10,8 +10,11 @@ black = "*"
 [packages]
 cleantext = {editable = true,extras = ["gpl"],path = "."}
 ftfy = "*"
-unidecode = "*"
 pytest = "*"
+unidecode = "*"
 
 [requires]
 python_version = "3.7"
+
+[pipenv]
+allow_prereleases = true
