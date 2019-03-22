@@ -9,6 +9,7 @@ import unicodedata
 from ftfy import fix_text
 
 from . import constants
+from .specials import save_replace
 
 log = logging.getLogger()
 
@@ -29,7 +30,7 @@ def fix_strange_quotes(text):
     Replace strange quotes, i.e., 〞with a single quote ' or a double quote " if it fits better.
     """
     text = constants.SINGLE_QUOTE_REGEX.sub("'", text)
-    text = constants.SINGLE_QUOTE_REGEX.sub('"', text)
+    text = constants.DOUBLE_QUOTE_REGEX.sub('"', text)
     return text
 
 
@@ -59,7 +60,7 @@ def fix_bad_unicode(text, normalization="NFC"):
     return fix_text(text, normalization=normalization)
 
 
-def to_ascii_unicode(text):
+def to_ascii_unicode(text, lang="en"):
     """
     Try to represent unicode data in ascii characters similar to what a human
     with a US keyboard would choose.
@@ -67,10 +68,19 @@ def to_ascii_unicode(text):
     gets from Latin-based alphabets. It's based on hand-tuned character mappings
     that also contain ascii approximations for symbols and non-Latin alphabets.
     """
-
     # normalize quotes before since this improves transliteration quality
     text = fix_strange_quotes(text)
-    return unidecode(text)
+
+    # special handling for German text to preserve umlauts
+    if lang == "de":
+        text = save_replace(text, lang=lang)
+
+    text = unidecode(text)
+
+    # important to remove utility characters
+    if lang == "de":
+        text = save_replace(text, lang=lang, back=True)
+    return text
 
 
 def normalize_whitespace(text, no_line_breaks):
@@ -156,6 +166,7 @@ def remove_punct(text, marks=None):
 
 def clean(
     text,
+    lang="en",
     fix_unicode=True,
     to_ascii=True,
     lower=True,
@@ -195,12 +206,13 @@ def clean(
         on the text, so choose carefully, and preprocess at your own risk!
     """
     text = str(text)
+
     if fix_unicode:
         text = fix_bad_unicode(text, normalization="NFC")
     if no_currency_symbols:
         text = replace_currency_symbols(text)
     if to_ascii:
-        text = to_ascii_unicode(text)
+        text = to_ascii_unicode(text, lang=lang)
     if no_urls:
         text = replace_urls(text)
     if no_emails:

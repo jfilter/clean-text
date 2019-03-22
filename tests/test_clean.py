@@ -77,7 +77,7 @@ def test_replace_currency_symbols():
         )
 
 
-def text_to_ascii_unicode():
+def test_fix_bad_unicode():
     text = (
         "and install a \\u2018new\\u2019 society in their"
     )  # and install a ‘new’ society in their
@@ -96,3 +96,9 @@ def test_zero_digits():
         cleantext.replace_digits(text)
         == "0 Golf Records More 'Unbreakable' Than the Warriors' 00 Wins"
     )
+
+
+def test_to_ascii():
+    assert cleantext.to_ascii_unicode("whatéver") == "whatever"
+    assert cleantext.to_ascii_unicode("Äpfel»", lang="de") == 'Äpfel"'
+
