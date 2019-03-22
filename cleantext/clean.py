@@ -25,6 +25,9 @@ except:
 
 
 def fix_strange_quotes(text):
+    """
+    Replace strange quotes, i.e., 〞with a single quote ' or a double quote " if it fits better.
+    """
     text = constants.SINGLE_QUOTE_REGEX.sub("'", text)
     text = constants.SINGLE_QUOTE_REGEX.sub('"', text)
     return text
@@ -65,9 +68,8 @@ def to_ascii_unicode(text):
     that also contain ascii approximations for symbols and non-Latin alphabets.
     """
 
-    # normalize quotes before
+    # normalize quotes before since this improves transliteration quality
     text = fix_strange_quotes(text)
-
     return unidecode(text)
 
 
@@ -87,9 +89,6 @@ def normalize_whitespace(text, no_line_breaks):
 
 def replace_urls(text, replace_with="<URL>"):
     """Replace all URLs in ``text`` str with ``replace_with`` str."""
-    # return constants.URL_REGEX.sub(
-    #     replace_with, constants.SHORT_URL_REGEX.sub(replace_with, text)
-    # )
     return constants.URL_REGEX.sub(replace_with, text)
 
 
@@ -108,11 +107,9 @@ def replace_numbers(text, replace_with="<NUMBER>"):
     return constants.NUMBERS_REGEX.sub(replace_with, text)
 
 
-def to_zero_digits(text):
-    """
-    All digits are reduced to 0. 123.34 to 000.00
-    """
-    return re.sub(r"\d", "0", text)
+def replace_digits(text, replace_with="0"):
+    """Replace all digits in ``text`` str with ``replace_with`` str, i.e., 123.34 to 000.00"""
+    return re.sub(r"\d", replace_with, text)
 
 
 def replace_currency_symbols(text, replace_with=None):
@@ -166,7 +163,7 @@ def clean(
     no_emails=False,
     no_phone_numbers=False,
     no_numbers=False,
-    zero_digits=False,
+    no_digits=False,
     no_currency_symbols=False,
     no_punct=False,
     no_line_breaks=False,
@@ -198,26 +195,27 @@ def clean(
         on the text, so choose carefully, and preprocess at your own risk!
     """
     text = str(text)
-    if fix_unicode is True:
+    if fix_unicode:
         text = fix_bad_unicode(text, normalization="NFC")
-    if no_currency_symbols is True:
+    if no_currency_symbols:
         text = replace_currency_symbols(text)
-    if to_ascii is True:
+    if to_ascii:
         text = to_ascii_unicode(text)
-    if no_urls is True:
+    if no_urls:
         text = replace_urls(text)
-    if no_emails is True:
+    if no_emails:
         text = replace_emails(text)
-    if no_phone_numbers is True:
+    if no_phone_numbers:
         text = replace_phone_numbers(text)
-    if no_numbers is True:
+    if no_numbers:
         text = replace_numbers(text)
-    if zero_digits:
-        text = to_zero_digits(text)
-    if no_punct is True:
+    if no_digits:
+        text = replace_digits(text)
+    if no_punct:
         text = remove_punct(text)
-    if lower is True:
+    if lower:
         text = text.lower()
+
     # always normalize whitespace
     text = normalize_whitespace(text, no_line_breaks)
 

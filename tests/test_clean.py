@@ -87,12 +87,12 @@ def text_to_ascii_unicode():
 def test_zero_digits():
     text = "in the 1970s there was 12.3 and 111 11 33 $23 03 wins"
     assert (
-        cleantext.to_zero_digits(text)
+        cleantext.replace_digits(text)
         == "in the 0000s there was 00.0 and 000 00 00 $00 00 wins"
     )
 
     text = "7 Golf Records More 'Unbreakable' Than the Warriors' 73 Wins"
     assert (
-        cleantext.to_zero_digits(text)
+        cleantext.replace_digits(text)
         == "0 Golf Records More 'Unbreakable' Than the Warriors' 00 Wins"
     )
