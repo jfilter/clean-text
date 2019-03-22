@@ -2,6 +2,7 @@
 
 """
 
+import logging
 import re
 import unicodedata
 
@@ -9,12 +10,18 @@ from ftfy import fix_text
 
 from . import constants
 
+log = logging.getLogger()
+
 # fall back to `unicodedata`
 try:
     from unidecode import unidecode
 except:
-    pass
+    from unicodedata import normalize
 
+    unidecode = lambda x: normalize("NFKD", x)
+    log.warning(
+        "Since the GPL-licensed package `unidecode` is not installed, using Python's `unicodedata` package which yields worse results."
+    )
 
 strange_double_quotes = [
     "«",
