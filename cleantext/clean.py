@@ -83,7 +83,7 @@ def to_ascii_unicode(text, lang="en"):
     return text
 
 
-def normalize_whitespace(text, no_line_breaks):
+def normalize_whitespace(text, no_line_breaks=False):
     """
     Given ``text`` str, replace one or more spacings with a single space, and one
     or more linebreaks with a single newline. Also strip leading/trailing whitespace.
@@ -122,7 +122,7 @@ def replace_digits(text, replace_with="0"):
     return re.sub(r"\d", replace_with, text)
 
 
-def replace_currency_symbols(text, replace_with=None):
+def replace_currency_symbols(text, replace_with="<CUR>"):
     """
     Replace all currency symbols in ``text`` str with string specified by ``replace_with`` str.
     Args:
@@ -159,6 +159,7 @@ def clean(
     fix_unicode=True,
     to_ascii=True,
     lower=True,
+    no_line_breaks=False,
     no_urls=False,
     no_emails=False,
     no_phone_numbers=False,
@@ -166,7 +167,12 @@ def clean(
     no_digits=False,
     no_currency_symbols=False,
     no_punct=False,
-    no_line_breaks=False,
+    replace_with_url="<URL>",
+    replace_with_email="<EMAIL>",
+    replace_with_phone_number="<PHONE>",
+    replace_with_number="<NUMBER>",
+    replace_with_digit="0",
+    replace_with_currency_symbol="<CUR>",
 ):
     """
     Normalize various aspects of a raw text doc before parsing it with Spacy.
@@ -199,19 +205,19 @@ def clean(
     if fix_unicode:
         text = fix_bad_unicode(text, normalization="NFC")
     if no_currency_symbols:
-        text = replace_currency_symbols(text)
+        text = replace_currency_symbols(text, replace_with_currency_symbol)
     if to_ascii:
         text = to_ascii_unicode(text, lang=lang)
     if no_urls:
-        text = replace_urls(text)
+        text = replace_urls(text, replace_with_url)
     if no_emails:
-        text = replace_emails(text)
+        text = replace_emails(text, replace_with_email)
     if no_phone_numbers:
-        text = replace_phone_numbers(text)
+        text = replace_phone_numbers(text, replace_with_phone_number)
     if no_numbers:
-        text = replace_numbers(text)
+        text = replace_numbers(text, replace_with_number)
     if no_digits:
-        text = replace_digits(text)
+        text = replace_digits(text, replace_with_digit)
     if no_punct:
         text = remove_punct(text)
     if lower:
