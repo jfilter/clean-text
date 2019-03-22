@@ -6,8 +6,6 @@ import re
 import sys
 import unicodedata
 
-from . import compat
-
 CURRENCIES = {
     "$": "USD",
     "zł": "PLN",
@@ -28,12 +26,8 @@ CURRENCIES = {
 
 
 PUNCT_TRANSLATE_UNICODE = dict.fromkeys(
-    (
-        i
-        for i in compat.range_(sys.maxunicode)
-        if unicodedata.category(compat.chr_(i)).startswith("P")
-    ),
-    u" ",
+    (i for i in range(sys.maxunicode) if unicodedata.category(chr(i)).startswith("P")),
+    " ",
 )
 
 ACRONYM_REGEX = re.compile(
