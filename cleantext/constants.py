@@ -23,7 +23,9 @@ CURRENCIES = {
     "₴": "UAH",
     "₹": "INR",
 }
-
+CURRENCY_REGEX = re.compile(
+    "({})+".format("|".join(re.escape(c) for c in CURRENCIES.keys()))
+)
 
 PUNCT_TRANSLATE_UNICODE = dict.fromkeys(
     (i for i in range(sys.maxunicode) if unicodedata.category(chr(i)).startswith("P")),
@@ -34,23 +36,22 @@ ACRONYM_REGEX = re.compile(
     r"(?:^|(?<=\W))(?:(?:(?:(?:[A-Z]\.?)+[a-z0-9&/-]?)+(?:[A-Z][s.]?|[0-9]s?))|(?:[0-9](?:\-?[A-Z])+))(?:$|(?=\W))",
     flags=re.UNICODE,
 )
+
 EMAIL_REGEX = re.compile(
     r"(?:^|(?<=[^\w@.)]))([\w+-](\.(?!\.))?)*?[\w+-]@(?:\w-?)*?\w+(\.([a-z]{2,})){1,3}(?:$|(?=\b))",
     flags=re.IGNORECASE | re.UNICODE,
 )
+
 PHONE_REGEX = re.compile(
     r"(?:^|(?<=[^\w)]))(\+?1[ .-]?)?(\(?\d{3}\)?[ .-]?)?(\d{3}[ .-]?\d{4})(\s?(?:ext\.?|[#x-])\s?\d{2,6})?(?:$|(?=\W))"
 )
+
 NUMBERS_REGEX = re.compile(
     r"(?:^|(?<=[^\w,.]))[+–-]?(([1-9]\d{0,2}(,\d{3})+(\.\d*)?)|([1-9]\d{0,2}([ .]\d{3})+(,\d*)?)|(\d*?[.,]\d+)|\d+)(?:$|(?=\b))"
 )
-CURRENCY_REGEX = re.compile(
-    "({})+".format("|".join(re.escape(c) for c in CURRENCIES.keys()))
-)
+
 LINEBREAK_REGEX = re.compile(r"((\r\n)|[\n\v])+")
-
 MULTI_WHITESPACE_TO_ONE_REGEX = re.compile(r"\s+")
-
 NONBREAKING_SPACE_REGEX = re.compile(r"(?!\n)\s+")
 
 # source: https://gist.github.com/dperini/729294
@@ -91,3 +92,27 @@ URL_REGEX = re.compile(
     # But I made sure that it does not include ), ] and } in the URL.
     flags=re.UNICODE | re.IGNORECASE,
 )
+
+
+strange_double_quotes = [
+    "«",
+    "‹",
+    "»",
+    "›",
+    "„",
+    "“",
+    "‟",
+    "”",
+    "❝",
+    "❞",
+    "❮",
+    "❯",
+    "〝",
+    "〞",
+    "〟",
+    "＂",
+]
+strange_single_quotes = ["‘", "‛", "’", "❛", "❜", "`", "´", "‘", "’"]
+
+DOUBLE_QUOTE_REGEX = re.compile("|".join(strange_double_quotes))
+SINGLE_QUOTE_REGEX = re.compile("|".join(strange_single_quotes))

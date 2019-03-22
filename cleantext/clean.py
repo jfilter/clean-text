@@ -23,33 +23,10 @@ except:
         "Since the GPL-licensed package `unidecode` is not installed, using Python's `unicodedata` package which yields worse results."
     )
 
-strange_double_quotes = [
-    "«",
-    "‹",
-    "»",
-    "›",
-    "„",
-    "“",
-    "‟",
-    "”",
-    "❝",
-    "❞",
-    "❮",
-    "❯",
-    "〝",
-    "〞",
-    "〟",
-    "＂",
-]
-strange_single_quotes = ["‘", "‛", "’", "❛", "❜", "`", "´", "‘", "’"]
-
 
 def fix_strange_quotes(text):
-    text = str(text)
-    for q in strange_double_quotes:
-        text = text.replace(q, '"')
-    for q in strange_single_quotes:
-        text = text.replace(q, "'")
+    text = constants.SINGLE_QUOTE_REGEX.sub("'", text)
+    text = constants.SINGLE_QUOTE_REGEX.sub('"', text)
     return text
 
 
@@ -220,6 +197,7 @@ def clean(
         These changes may negatively affect subsequent NLP analysis performed
         on the text, so choose carefully, and preprocess at your own risk!
     """
+    text = str(text)
     if fix_unicode is True:
         text = fix_bad_unicode(text, normalization="NFC")
     if no_currency_symbols is True:
