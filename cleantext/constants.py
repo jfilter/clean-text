@@ -29,7 +29,7 @@ CURRENCY_REGEX = re.compile(
 
 PUNCT_TRANSLATE_UNICODE = dict.fromkeys(
     (i for i in range(sys.maxunicode) if unicodedata.category(chr(i)).startswith("P")),
-    " ",
+    "",
 )
 
 ACRONYM_REGEX = re.compile(

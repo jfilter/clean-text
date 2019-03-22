@@ -142,26 +142,15 @@ def replace_currency_symbols(text, replace_with=None):
         return constants.CURRENCY_REGEX.sub(replace_with, text)
 
 
-def remove_punct(text, marks=None):
+def remove_punct(text):
     """
-    Remove punctuation from ``text`` by replacing all instances of ``marks``
-    with whitespace.
+    Replace punctuations from ``text`` with whitespaces.
     Args:
         text (str): raw text
-        marks (str): If specified, remove only the characters in this string,
-            e.g. ``marks=',;:'`` removes commas, semi-colons, and colons.
-            Otherwise, all punctuation marks are removed.
     Returns:
         str
-    Note:
-        When ``marks=None``, Python's built-in :meth:`str.translate()` is
-        used to remove punctuation; otherwise, a regular expression is used
-        instead. The former's performance is about 5-10x faster.
     """
-    if marks:
-        return re.sub("[{}]+".format(re.escape(marks)), " ", text, flags=re.UNICODE)
-    else:
-        return text.translate(constants.PUNCT_TRANSLATE_UNICODE)
+    return text.translate(constants.PUNCT_TRANSLATE_UNICODE)
 
 
 def clean(
