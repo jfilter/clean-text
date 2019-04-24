@@ -86,7 +86,7 @@ def to_ascii_unicode(text, lang="en"):
 def normalize_whitespace(text, no_line_breaks=False):
     """
     Given ``text`` str, replace one or more spacings with a single space, and one
-    or more linebreaks with a single newline. Also strip leading/trailing whitespace.
+    or more line breaks with a single newline. Also strip leading/trailing whitespace.
     """
     if no_line_breaks:
         text = constants.MULTI_WHITESPACE_TO_ONE_REGEX.sub(" ", text)
