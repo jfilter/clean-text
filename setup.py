@@ -11,7 +11,7 @@ classifiers = [
     'License :: OSI Approved :: Apache Software License',
 ]
 
-version = '0.1.0'
+version = '0.1.1'
 
 setup(name='clean-text',
       version=version,
