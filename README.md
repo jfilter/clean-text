@@ -1,9 +1,9 @@
 # clean-text
 
-Clean your text with `clean-text` to create normalized text represenations. For instance, turn this corrupted input:
+Clean your text with `clean-text` to create normalized text representations. For instance, turn this corrupted input:
 
 ```txt
-There's a bunch of \\u2018new\\u2019 references, including [Moana](https://en.wikipedia.org/wiki/Moana_%282016_film%29).
+A bunch of \\u2018new\\u2019 references, including [Moana](https://en.wikipedia.org/wiki/Moana_%282016_film%29).
 
 
 »Yóù àré     rïght &lt;3!«
@@ -12,12 +12,12 @@ There's a bunch of \\u2018new\\u2019 references, including [Moana](https://en.wi
 into this
 
 ```txt
-there's a bunch of 'new' references, including [moana](<URL>).
+A bunch of 'new' references, including [moana](<URL>).
 
 "you are right <3!"
 ```
 
-`clean-text` uses [ftfy](https://github.com/LuminosoInsight/python-ftfy), [unidecode](https://github.com/takluyver/Unidecode) and numerous hand-crafted rules such as RegEx.
+`clean-text` uses [ftfy](https://github.com/LuminosoInsight/python-ftfy), [unidecode](https://github.com/takluyver/Unidecode) and numerous hand-crafted rules, i.e., RegEx.
 
 ## Installation
 
@@ -25,7 +25,7 @@ there's a bunch of 'new' references, including [moana](<URL>).
 pip install clean-text[gpl]
 ```
 
-This will install the GPL-licensed package [unidecode](https://github.com/takluyver/Unidecode). If it is not available, `clean-text` will resort to Python's [unicodedata.normalize](https://docs.python.org/3.7/library/unicodedata.html#unicodedata.normalize). This is used for transliteration. So `ê` gets turned into `e`. So you can also install it without unidecode.
+This will install the GPL-licensed package [unidecode](https://github.com/takluyver/Unidecode). If it is not available, `clean-text` will resort to Python's [unicodedata.normalize](https://docs.python.org/3.7/library/unicodedata.html#unicodedata.normalize) for [transliteration](https://en.wikipedia.org/wiki/Transliteration). Unicode symbols are encoded to their clostest ASCII equivlaent. So `ê` gets turned into `e`. However, you may also disable this feature altogether.
 
 ```bash
 pip install clean-text
@@ -60,6 +60,8 @@ clean("some input",
 
 Carefully choose the arguments that fit your task. The default parameters are listed above. Whitespace is always normalized.
 
+You may also only use specific functions for cleaning. For this, take a look at the [source code](https://github.com/jfilter/clean-text/blob/master/cleantext/clean.py).
+
 ## Development
 
 -   install [Pipenv](https://pipenv.readthedocs.io/en/latest/)
@@ -76,7 +78,7 @@ If you don't like the output of `clean-text`, consider adding a [test](https://g
 
 ## Acknowledgements
 
-Built upon the work by [Burton DeWilde](https://github.com/bdewilde)'s [Textacy](https://github.com/chartbeat-labs/textacy).
+Built upon the work by [Burton DeWilde](https://github.com/bdewilde)'s for [Textacy](https://github.com/chartbeat-labs/textacy).
 
 ## License
 

@@ -7,6 +7,7 @@ with open("README.md", "r") as fh:
 classifiers = [
     'Programming Language :: Python :: 3.5',
     'Programming Language :: Python :: 3.6',
+    'Programming Language :: Python :: 3.7',
     'License :: OSI Approved :: MIT License',
 ]
 
@@ -14,11 +15,11 @@ version = '0.0.0'
 
 setup(name='cleantext',
       version=version,
-      description='Clean your dirty text',
+      description='Clean Your Text to Create Normalized Text Representations',
       long_description=long_description,
       long_description_content_type="text/markdown",
       author='Johannes Filter',
-      author_email='ragha@outlook.com, hi@jfilter.de',
+      author_email='hi@jfilter.de',
       url='https://github.com/jfilter/clean-text',
       license='MIT',
       install_requires=['ftfy'],
