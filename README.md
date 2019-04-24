@@ -1,6 +1,6 @@
 # `clean-text` [![Build Status](https://travis-ci.com/jfilter/clean-text.svg?branch=master)](https://travis-ci.com/jfilter/clean-text) [![PyPI](https://img.shields.io/pypi/v/clean-text.svg)](https://pypi.org/project/clean-text/) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/clean-text.svg)](https://pypi.org/project/clean-text/)
 
-Clean your text with `clean-text` to create normalized text representations. For instance, turn this corrupted input:
+Data on the Web and elsewhere is often dirty. Clean your text with `clean-text` to create normalized text representations. For instance, turn this corrupted input:
 
 ```txt
 A bunch of \\u2018new\\u2019 references, including [Moana](https://en.wikipedia.org/wiki/Moana_%282016_film%29).
@@ -34,8 +34,8 @@ pip install clean-text
 ```
 
 If [unidecode](https://github.com/takluyver/Unidecode) is not available, `clean-text` will resort to Python's [unicodedata.normalize](https://docs.python.org/3.7/library/unicodedata.html#unicodedata.normalize) for [transliteration](https://en.wikipedia.org/wiki/Transliteration).
-Transliteration to closest ASCII symbols involes manually mappings, i.e., `ê` to `e`. Unidecode's hand-crafted mapping is superiour but unicodedata's are sufficent.
-However, you may want to disable this feature altogether depening on your data and use case.
+Transliteration to closest ASCII symbols involes manually mappings, i.e., `ê` to `e`. Unidecode's mapping is superiour but unicodedata's are sufficent.
+However, you may want to disable this feature altogether depending on your data and use case.
 
 ## Usage
 
@@ -68,7 +68,7 @@ Carefully choose the arguments that fit your task. The default parameters are li
 
 You may also only use specific functions for cleaning. For this, take a look at the [source code](https://github.com/jfilter/clean-text/blob/master/cleantext/clean.py).
 
-So far, only English and German are fully supported. It should work for the majority of Western languages. If you need some special handling for you language, feel free to contribute. 🙃
+So far, only English and German are fully supported. It should work for the majority of western languages. If you need some special handling for your language, feel free to contribute. 🙃
 
 ## Development
 
