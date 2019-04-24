@@ -8,12 +8,12 @@ classifiers = [
     'Programming Language :: Python :: 3.5',
     'Programming Language :: Python :: 3.6',
     'Programming Language :: Python :: 3.7',
-    'License :: OSI Approved :: MIT License',
+    'License :: OSI Approved :: Apache Software License',
 ]
 
 version = '0.1.0'
 
-setup(name='cleantext',
+setup(name='clean-text',
       version=version,
       description='Clean Your Text to Create Normalized Text Representations',
       long_description=long_description,
