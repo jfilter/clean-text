@@ -1,4 +1,4 @@
-# clean-text
+# `clean-text` [![Build Status](https://travis-ci.com/jfilter/clean-text.svg?branch=master)](https://travis-ci.com/jfilter/clean-text) [![PyPI](https://img.shields.io/pypi/v/clean-text.svg)](https://pypi.org/project/clean-text/) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/clean-text.svg)](https://pypi.org/project/clean-text/)
 
 Clean your text with `clean-text` to create normalized text representations. For instance, turn this corrupted input:
 
@@ -9,7 +9,7 @@ A bunch of \\u2018new\\u2019 references, including [Moana](https://en.wikipedia.
 »Yóù àré     rïght &lt;3!«
 ```
 
-into this
+into this clean output:
 
 ```txt
 A bunch of 'new' references, including [moana](<URL>).
@@ -21,15 +21,21 @@ A bunch of 'new' references, including [moana](<URL>).
 
 ## Installation
 
+To install the GPL-licensed package [unidecode](https://github.com/takluyver/Unidecode) alongside:
+
 ```bash
 pip install clean-text[gpl]
 ```
 
-This will install the GPL-licensed package [unidecode](https://github.com/takluyver/Unidecode). If it is not available, `clean-text` will resort to Python's [unicodedata.normalize](https://docs.python.org/3.7/library/unicodedata.html#unicodedata.normalize) for [transliteration](https://en.wikipedia.org/wiki/Transliteration). Unicode symbols are encoded to their clostest ASCII equivlaent. So `ê` gets turned into `e`. However, you may also disable this feature altogether.
+You may want to abstain from GPL:
 
 ```bash
 pip install clean-text
 ```
+
+If [unidecode](https://github.com/takluyver/Unidecode) is not available, `clean-text` will resort to Python's [unicodedata.normalize](https://docs.python.org/3.7/library/unicodedata.html#unicodedata.normalize) for [transliteration](https://en.wikipedia.org/wiki/Transliteration).
+Transliteration to closest ASCII symbols involes manually mappings, i.e., `ê` to `e`. Unidecode's hand-crafted mapping is superiour but unicodedata's are sufficent.
+However, you may want to disable this feature altogether depening on your data and use case.
 
 ## Usage
 
@@ -37,30 +43,32 @@ pip install clean-text
 from cleantext import clean
 
 clean("some input",
-    fix_unicode=True, # fix various unicode errors
-    to_ascii=True, # transliterate to closest ASCII representation
-    lower=True, # lowercase text
-    no_line_breaks=False, # fully strip linebreaks
-    no_urls=False, # replace all URLs with a special token
-    no_emails=False, # replace all email addresses with a special token
-    no_phone_numbers=False, # replace all phone numbers with a special token
-    no_numbers=False, # replace all numbers with a special token
-    no_digits=False, # replace all digits with a special token
-    no_currency_symbols=False, # replace all currency symbols with a special token
-    no_punct=False, # fully remove punctuation
+    fix_unicode=True,               # fix various unicode errors
+    to_ascii=True,                  # transliterate to closest ASCII representation
+    lower=True,                     # lowercase text
+    no_line_breaks=False,           # fully strip line breaks as opposed to only normalizing them
+    no_urls=False,                  # replace all URLs with a special token
+    no_emails=False,                # replace all email addresses with a special token
+    no_phone_numbers=False,         # replace all phone numbers with a special token
+    no_numbers=False,               # replace all numbers with a special token
+    no_digits=False,                # replace all digits with a special token
+    no_currency_symbols=False,      # replace all currency symbols with a special token
+    no_punct=False,                 # fully remove punctuation
     replace_with_url="<URL>",
     replace_with_email="<EMAIL>",
     replace_with_phone_number="<PHONE>",
     replace_with_number="<NUMBER>",
     replace_with_digit="0",
     replace_with_currency_symbol="<CUR>",
-    lang="en" # change to 'de' for German special handling
+    lang="en"                       # set to 'de' for German special handling
 )
 ```
 
 Carefully choose the arguments that fit your task. The default parameters are listed above. Whitespace is always normalized.
 
 You may also only use specific functions for cleaning. For this, take a look at the [source code](https://github.com/jfilter/clean-text/blob/master/cleantext/clean.py).
+
+So far, only English and German are fully supported. It should work for the majority of Western languages. If you need some special handling for you language, feel free to contribute. 🙃
 
 ## Development
 
@@ -75,6 +83,11 @@ If you have a **question**, found a **bug** or want to propose a new **feature**
 **Pull requests** are especially welcomed when they fix bugs or improve the code quality.
 
 If you don't like the output of `clean-text`, consider adding a [test](https://github.com/jfilter/clean-text/tree/master/tests) with your specific input and desired output.
+
+## Related Work
+
+-   https://github.com/pudo/normality
+-   https://github.com/davidmogar/cucco
 
 ## Acknowledgements
 
