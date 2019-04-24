@@ -1,5 +1,5 @@
 """
-
+Clean your text to create normalized text represenations.
 """
 
 import logging
@@ -155,7 +155,6 @@ def remove_punct(text):
 
 def clean(
     text,
-    lang="en",
     fix_unicode=True,
     to_ascii=True,
     lower=True,
@@ -173,27 +172,37 @@ def clean(
     replace_with_number="<NUMBER>",
     replace_with_digit="0",
     replace_with_currency_symbol="<CUR>",
+    lang="en",
 ):
     """
-    Normalize various aspects of a raw text doc before parsing it with Spacy.
-    A convenience function for applying all other preprocessing functions in one go.
+    Normalize various aspects of a raw text. A convenience function for applying all other preprocessing functions in one go.
     Args:
         text (str): raw text to preprocess
         fix_unicode (bool): if True, fix "broken" unicode such as
             mojibake and garbled HTML entities
-        lower (bool): if True, all text is lower-cased
         to_ascii (bool): if True, convert non-to_ascii characters
             into their closest to_ascii equivalents
-        no_urls (bool): if True, replace all URL strings with '*URL*'
-        no_emails (bool): if True, replace all email strings with '*EMAIL*'
+        lower (bool): if True, all text is lower-cased
+        no_line_breaks (bool): if True, strip line breaks from text
+        no_urls (bool): if True, replace all URL strings with a special URL token
+        no_emails (bool): if True, replace all email strings with a special EMAIL token
         no_phone_numbers (bool): if True, replace all phone number strings
-            with '*PHONE*'
+            with a special PHONE token
         no_numbers (bool): if True, replace all number-like strings
-            with '*NUMBER*'
+            with a special NUMBER token
+        no_digits (bool): if True, replace all digits with a special DIGIT token
         no_currency_symbols (bool): if True, replace all currency symbols
-            with their standard 3-letter abbreviations
+            with a special CURRENCY token
         no_punct (bool): if True, remove all punctuation (replace with
             empty string)
+        replace_with_url (str): special URL token, default "<URL>",
+        replace_with_email (str): special EMAIL token, default "<EMAIL>",
+        replace_with_phone_number (str): special PHONE token, default "<PHONE>",
+        replace_with_number (str): special NUMBER token, default "<NUMBER>",
+        replace_with_digit (str): special DIGIT token, default "0",
+        replace_with_currency_symbol (str): special CURRENCY token, default "<CUR>",
+        lang (str): special language-depended preprocessing. Besides the default English ('en'), only German ('de') is supported
+
     Returns:
         str: input ``text`` processed according to function args
     Warning:
@@ -203,7 +212,7 @@ def clean(
     text = str(text)
 
     if fix_unicode:
-        text = fix_bad_unicode(text, normalization="NFC")
+        text = fix_bad_unicode(text)
     if no_currency_symbols:
         text = replace_currency_symbols(text, replace_with_currency_symbol)
     if to_ascii:
