@@ -209,6 +209,10 @@ def clean(
         These changes may negatively affect subsequent NLP analysis performed
         on the text, so choose carefully, and preprocess at your own risk!
     """
+
+    if text is None:
+        return ''
+
     text = str(text)
 
     if fix_unicode:
