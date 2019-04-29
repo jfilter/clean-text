@@ -91,7 +91,7 @@ If you don't like the output of `clean-text`, consider adding a [test](https://g
 
 ## Acknowledgements
 
-Built upon the work by [Burton DeWilde](https://github.com/bdewilde)'s for [Textacy](https://github.com/chartbeat-labs/textacy).
+Built upon the work by [Burton DeWilde](https://github.com/bdewilde) for [Textacy](https://github.com/chartbeat-labs/textacy).
 
 ## License
 
