@@ -11,6 +11,10 @@ from ftfy import fix_text
 from . import constants
 from .specials import save_replace
 
+from nltk.corpus import stopwords 
+from nltk.tokenize import word_tokenize
+from nltk.tokenize.treebank import TreebankWordDetokenizer
+
 log = logging.getLogger()
 
 # fall back to `unicodedata`
@@ -151,6 +155,25 @@ def remove_punct(text):
         str
     """
     return text.translate(constants.PUNCT_TRANSLATE_UNICODE)
+                          
+                          
+def remove_stopwords(text):
+    """
+    Remove all the stopwords in ``text`` like: the, an, a, in, etc. using nltk list of stopwords.
+    Args:
+        text (str): raw text
+    Returns:
+        str
+    """
+    stop_words = set(stopwords.words('english'))
+    word_tokens = word_tokenize(text)
+
+    sentences= [w for w in word_tokens if not w in stop_words]
+    s= TreebankWordDetokenizer().detokenize(sentences)
+    s= s.replace("``", ' "').replace("''", '"')
+    while " 's" in s:
+        s= s.replace(" 's", "'s")
+    return s.replace(" .", ".")
 
 
 def clean(
@@ -166,6 +189,7 @@ def clean(
     no_digits=False,
     no_currency_symbols=False,
     no_punct=False,
+    no_stopwords=False,
     replace_with_url="<URL>",
     replace_with_email="<EMAIL>",
     replace_with_phone_number="<PHONE>",
@@ -195,6 +219,7 @@ def clean(
             with a special CURRENCY token
         no_punct (bool): if True, remove all punctuation (replace with
             empty string)
+        no_stopwords (bool): if True, remove all stopwords
         replace_with_url (str): special URL token, default "<URL>",
         replace_with_email (str): special EMAIL token, default "<EMAIL>",
         replace_with_phone_number (str): special PHONE token, default "<PHONE>",
@@ -233,6 +258,8 @@ def clean(
         text = replace_digits(text, replace_with_digit)
     if no_punct:
         text = remove_punct(text)
+    if no_stopwords:
+        text = remove_stopwords(text)
     if lower:
         text = text.lower()
 
