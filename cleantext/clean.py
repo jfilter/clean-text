@@ -8,12 +8,12 @@ import unicodedata
 
 from ftfy import fix_text
 
-from . import constants
-from .specials import save_replace
-
 from nltk.corpus import stopwords 
 from nltk.tokenize import word_tokenize
 from nltk.tokenize.treebank import TreebankWordDetokenizer
+
+from . import constants
+from .specials import save_replace
 
 log = logging.getLogger()
 
