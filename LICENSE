@@ -1,12 +1,11 @@
-Textacy https://github.com/chartbeat-labs/textacy
+Textacy (https://github.com/chartbeat-labs/textacy)
 Copyright 2016 Chartbeat, Inc.
 
-
-Modified by Johannes Fillter, 2018-2019
-- only use `constants.py` and `preprocess.py` (renamed to clean.py)
-- only use `test_preprocess` and renamed it to `test_clean.py`
-- modifying the extracted files to add new features and also drop some old ones
-- distribute as package `clean-text`
+Modified by Johannes Fillter, 2018-2020
+- extracted (from Textacy) `constants.py` and `preprocess.py` (renamed to clean.py)
+- extracted (from Textacy) `test_preprocess.py` (and renamed it to `test_clean.py`)
+- modified the extracted files to add new features and also drop some old ones
+- distribute the package as `clean-text` (https://github.com/jfilter/clean-text)
 
 
 Licensed under the Apache License, Version 2.0 (the "License");
