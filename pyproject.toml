@@ -13,6 +13,7 @@ classifiers = [
     'Programming Language :: Python :: 3.9',
     'License :: OSI Approved :: Apache Software License',
 ]
+readme = "README.md"
 packages = [
     {include = "cleantext"}
 ]
