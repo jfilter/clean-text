@@ -20,6 +20,10 @@ def test_replace_urls():
             "There's a bunch of references in that one scene alone, including [Moana](https://en.wikipedia.org/wiki/Moana_%282016_film%29), which comes out later this year.",
             "There's a bunch of references in that one scene alone, including [Moana](*URL*), which comes out later this year.",
         ],
+        [
+            "Also this should be fixed http://localhost:8080, https://localhost:8080, localhost:8080",
+            "Also this should be fixed *URL*, *URL*, localhost:8080",
+        ],
     ]
 
     for text, proc_text in texts:
