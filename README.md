@@ -37,6 +37,8 @@ If [unidecode](https://github.com/takluyver/Unidecode) is not available, `clean-
 Transliteration to closest ASCII symbols involes manually mappings, i.e., `ê` to `e`. Unidecode's mapping is superiour but unicodedata's are sufficent.
 However, you may want to disable this feature altogether depending on your data and use case.
 
+NB: The package is named `clean-text` and not `cleantext`.
+
 ## Usage
 
 ```python
@@ -72,9 +74,7 @@ So far, only English and German are fully supported. It should work for the majo
 
 ## Development
 
--   install [Pipenv](https://pipenv.readthedocs.io/en/latest/)
--   get the package: `git clone https://github.com/jfilter/clean-text && cd clean-text && pipenv install`
--   run tests: `pipenv run pytest`
+[Install and use poetry](https://python-poetry.org/).
 
 ## Contributing
 
