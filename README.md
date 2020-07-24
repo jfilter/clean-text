@@ -1,6 +1,6 @@
-# `clean-text` [![Build Status](https://travis-ci.com/jfilter/clean-text.svg?branch=master)](https://travis-ci.com/jfilter/clean-text) [![PyPI](https://img.shields.io/pypi/v/clean-text.svg)](https://pypi.org/project/clean-text/) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/clean-text.svg)](https://pypi.org/project/clean-text/)
+# `clean-text` [![Build Status](https://travis-ci.com/jfilter/clean-text.svg?branch=master)](https://travis-ci.com/jfilter/clean-text) [![PyPI](https://img.shields.io/pypi/v/clean-text.svg)](https://pypi.org/project/clean-text/) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/clean-text.svg)](https://pypi.org/project/clean-text/) [![PyPI - Downloads](https://img.shields.io/pypi/dm/clean-text)](https://pypistats.org/packages/clean-text)
 
-Data on the Web and elsewhere is often dirty. Clean your text with `clean-text` to create normalized text representations. For instance, turn this corrupted input:
+User-generated content on the Web and in social media is often dirty. Preprocess your scraped data with `clean-text` to create a normalized text representation. For instance, turn this corrupted input:
 
 ```txt
 A bunch of \\u2018new\\u2019 references, including [Moana](https://en.wikipedia.org/wiki/Moana_%282016_film%29).
@@ -88,6 +88,9 @@ If you don't like the output of `clean-text`, consider adding a [test](https://g
 
 -   https://github.com/pudo/normality
 -   https://github.com/davidmogar/cucco
+-   https://github.com/lyeoni/prenlp
+-   https://github.com/chartbeat-labs/textacy
+-   https://github.com/jbesomi/texthero
 
 ## Acknowledgements
 
@@ -99,6 +102,6 @@ Apache
 
 ## Sponsoring
 
-This work was created as part of a [project](https://github.com/jfilter/ptf) that was funded by the German [Federal Ministry of Education and Research](https://www.bmbf.de/en/index.html).
+This work was created as part of a [project](https://github.com/jfilter/ptf-kommentare) that was funded by the German [Federal Ministry of Education and Research](https://www.bmbf.de/en/index.html).
 
 <img src="./bmbf_funded.svg">

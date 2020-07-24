@@ -74,9 +74,7 @@ def test_replace_currency_symbols():
 
 
 def test_fix_bad_unicode():
-    text = (
-        "and install a \\u2018new\\u2019 society in their"
-    )  # and install a ‘new’ society in their
+    text = "and install a \\u2018new\\u2019 society in their"  # and install a ‘new’ society in their
     assert cleantext.fix_bad_unicode(text) == "and install a 'new' society in their"
 
 
@@ -97,4 +95,5 @@ def test_zero_digits():
 def test_to_ascii():
     assert cleantext.to_ascii_unicode("whatéver") == "whatever"
     assert cleantext.to_ascii_unicode("Äpfel»", lang="de") == 'Äpfel"'
+    assert cleantext.to_ascii_unicode("Äpfel»", lang="DE") == 'Äpfel"'
 

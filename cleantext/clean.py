@@ -4,7 +4,6 @@ Clean your text to create normalized text represenations.
 
 import logging
 import re
-import unicodedata
 
 from ftfy import fix_text
 
@@ -212,7 +211,7 @@ def clean(
     """
 
     if text is None:
-        return ''
+        return ""
 
     text = str(text)
 
