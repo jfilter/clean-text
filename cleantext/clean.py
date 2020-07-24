@@ -71,6 +71,7 @@ def to_ascii_unicode(text, lang="en"):
     # normalize quotes before since this improves transliteration quality
     text = fix_strange_quotes(text)
 
+    lang = lang.lower()
     # special handling for German text to preserve umlauts
     if lang == "de":
         text = save_replace(text, lang=lang)
