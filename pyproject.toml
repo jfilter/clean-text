@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "clean-text"
-version = "0.1.1"
+version = "0.2.0"
 description = "Functions to preprocess and normalize text."
 license = "Apache-2.0"
 authors = ["Johannes Filter <hi@jfilter.de>"]
