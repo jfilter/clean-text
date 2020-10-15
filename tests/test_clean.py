@@ -30,10 +30,43 @@ def test_replace_urls():
         assert cleantext.replace_urls(text, "*URL*") == proc_text
 
 
+email_addresses = [
+    "mustermann@fh-aachen.de",
+    "mustermann(at)fh-aachen.de",
+    "m.mustermann@fh-aachen.de",
+    "m.mustermann(at)fh-aachen.de",
+    "m.mustermann<at>fh-aachen.de",
+    "m.mustermann[at]fh-aachen.de",
+    "m.mustermann{at}fh-aachen.de",
+    "m.mustermann@alumni.fh-aachen.de",
+    "max.mustermann@alumni.fh-aachen.com",
+    "hotbunny1337@test.mail.gg",
+    "test@this.really.should.work.com",
+]
+
+not_email_addresses = [
+    "mustermann@ fh-aachen.de",
+    "mustermannatfh-aachen.de",
+    "mustermannat)fh-aachen.de",
+    "@test.de",
+    "hu@.de"
+]
+
+
 def test_replace_emails():
     text = "I can be reached at username@example.com through next Friday."
     proc_text = "I can be reached at *EMAIL* through next Friday."
     assert cleantext.replace_emails(text, "*EMAIL*") == proc_text
+
+
+def test_email_addresses():
+    for x in email_addresses:
+        assert cleantext.replace_emails(x, "*EMAIL*") == "*EMAIL*"
+
+
+def test_not_email_addresses():
+    for x in not_email_addresses:
+        assert cleantext.replace_emails(x, "*EMAIL*") != "*EMAIL*"
 
 
 phone_numbers = [
