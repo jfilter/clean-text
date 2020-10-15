@@ -42,8 +42,9 @@ EMAIL_REGEX = re.compile(
     flags=re.IGNORECASE | re.UNICODE,
 )
 
+# for more information: https://github.com/jfilter/clean-text/issues/10
 PHONE_REGEX = re.compile(
-    r"(?:^|(?<=[^\w)]))(\+?1[ .-]?)?(\(?\d{3}\)?[ .-]?)?(\d{3}[ .-]?\d{4})(\s?(?:ext\.?|[#x-])\s?\d{2,6})?(?:$|(?=\W))"
+    r"((?:^|(?<=[^\w)]))(((\+?[01])|(\+\d{2}))[ .-]?)?(\(?\d{3,4}\)?/?[ .-]?)?(\d{3}[ .-]?\d{4})(\s?(?:ext\.?|[#x-])\s?\d{2,6})?(?:$|(?=\W)))|\+?\d{4,5}[ .-/]\d{6,9}"
 )
 
 NUMBERS_REGEX = re.compile(

@@ -36,10 +36,29 @@ def test_replace_emails():
     assert cleantext.replace_emails(text, "*EMAIL*") == proc_text
 
 
+phone_numbers = [
+    "+49 123 1548690",
+    "555-123-4567",
+    "2404 9099130",
+    "024049099130",
+    "02404 9099130",
+    "02404/9099130",
+    "+492404 9099130",
+    "+4924049099130",
+    "+492404/9099130",
+    "0160 123456789",
+    "0160/123456789",
+    "+32160 123456789",
+    "Tel.: 0160 123456789",
+]
+
+
 def test_replace_phone_numbers():
-    text = "I can be reached at 555-123-4567 through next Friday."
-    proc_text = "I can be reached at *PHONE* through next Friday."
-    assert cleantext.replace_phone_numbers(text, "*PHONE*") == proc_text
+    for x in phone_numbers:
+        x_phone = cleantext.replace_phone_numbers(x, "*PHONE*")
+        assert "PHONE" in x_phone and not any(map(str.isdigit, x_phone)), (
+            x + " / " + x_phone
+        )
 
 
 def test_replace_numbers():
