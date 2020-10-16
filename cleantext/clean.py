@@ -97,6 +97,11 @@ def normalize_whitespace(text, no_line_breaks=False):
     return text.strip()
 
 
+# used below to keep `normalize_whitespace` as a parameter in `clean`
+def _normalize_whitespace(*kwargs):
+    return normalize_whitespace(*kwargs)
+
+
 def replace_urls(text, replace_with="<URL>"):
     """Replace all URLs in ``text`` str with ``replace_with`` str."""
     return constants.URL_REGEX.sub(replace_with, text)
@@ -158,6 +163,7 @@ def clean(
     fix_unicode=True,
     to_ascii=True,
     lower=True,
+    normalize_whitespace=True,
     no_line_breaks=False,
     no_urls=False,
     no_emails=False,
@@ -236,7 +242,7 @@ def clean(
     if lower:
         text = text.lower()
 
-    # always normalize whitespace
-    text = normalize_whitespace(text, no_line_breaks)
+    if normalize_whitespace:
+        text = _normalize_whitespace(text, no_line_breaks)
 
     return text

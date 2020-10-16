@@ -49,7 +49,7 @@ not_email_addresses = [
     "mustermannatfh-aachen.de",
     "mustermannat)fh-aachen.de",
     "@test.de",
-    "hu@.de"
+    "hu@.de",
 ]
 
 
@@ -153,3 +153,9 @@ def test_to_ascii():
     assert cleantext.to_ascii_unicode("Äpfel»", lang="de") == 'Äpfel"'
     assert cleantext.to_ascii_unicode("Äpfel»", lang="DE") == 'Äpfel"'
 
+
+def test_whitespace():
+    assert cleantext.clean(" peter", normalize_whitespace=False) == " peter"
+    assert cleantext.clean(" peter", normalize_whitespace=True) == "peter"
+    assert cleantext.clean(" pet\n\ner", normalize_whitespace=True, no_line_breaks=True) == "pet er"
+    assert cleantext.clean(" pet\n\ner", normalize_whitespace=True, no_line_breaks=False) == "pet\ner"
