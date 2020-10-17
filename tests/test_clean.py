@@ -155,7 +155,7 @@ def test_zero_digits():
 
 
 def test_to_ascii():
-    assert cleantext.to_ascii_unicode("whatéver") == "whatever"
+    assert cleantext.to_ascii_unicode("whatëver") == "whatever"
     assert cleantext.to_ascii_unicode("Äpfel»", lang="de") == 'Äpfel"'
     assert cleantext.to_ascii_unicode("Äpfel»", lang="DE") == 'Äpfel"'
 
