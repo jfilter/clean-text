@@ -20,11 +20,8 @@ log = logging.getLogger()
 try:
     from unidecode import unidecode
 
-    using_unidecode = True
 except:
     from unicodedata import normalize
-
-    using_unidecode = False
 
     unidecode = lambda x: normalize("NFD", x).encode("ASCII", "ignore").decode("utf-8")
     log.warning(
@@ -277,7 +274,7 @@ def clean(
         else:
             text = replace_punct(text, replace_with_punct)
 
-    if no_emoji and (not to_ascii or not using_unidecode):
+    if no_emoji and not to_ascii:
         text = remove_emoji(text)
 
     if lower:
