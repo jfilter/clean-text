@@ -55,7 +55,8 @@ clean("some input",
     no_numbers=False,               # replace all numbers with a special token
     no_digits=False,                # replace all digits with a special token
     no_currency_symbols=False,      # replace all currency symbols with a special token
-    no_punct=False,                 # fully remove punctuation
+    no_punct=False,                 # remove punctuations
+    replace_with_punct="",          # instead of removing punctuations you may replace them
     replace_with_url="<URL>",
     replace_with_email="<EMAIL>",
     replace_with_phone_number="<PHONE>",

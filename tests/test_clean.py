@@ -108,6 +108,12 @@ def test_remove_punct():
     assert cleantext.remove_punct(text) == proc_text
 
 
+def test_replace_punct():
+    text = "I can't. No, I won't!"
+    proc_text = "i can t no i won t"
+    assert cleantext.clean(text, no_punct=True, replace_with_punct=" ") == proc_text
+
+
 def test_replace_currency_symbols():
     tests = [
         (
@@ -157,5 +163,11 @@ def test_to_ascii():
 def test_whitespace():
     assert cleantext.clean(" peter", normalize_whitespace=False) == " peter"
     assert cleantext.clean(" peter", normalize_whitespace=True) == "peter"
-    assert cleantext.clean(" pet\n\ner", normalize_whitespace=True, no_line_breaks=True) == "pet er"
-    assert cleantext.clean(" pet\n\ner", normalize_whitespace=True, no_line_breaks=False) == "pet\ner"
+    assert (
+        cleantext.clean(" pet\n\ner", normalize_whitespace=True, no_line_breaks=True)
+        == "pet er"
+    )
+    assert (
+        cleantext.clean(" pet\n\ner", normalize_whitespace=True, no_line_breaks=False)
+        == "pet\ner"
+    )

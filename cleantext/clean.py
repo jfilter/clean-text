@@ -4,6 +4,9 @@ Clean your text to create normalized text represenations.
 
 import logging
 import re
+import sys
+from unicodedata import category
+
 
 from ftfy import fix_text
 
@@ -147,6 +150,15 @@ def replace_currency_symbols(text, replace_with="<CUR>"):
         return constants.CURRENCY_REGEX.sub(replace_with, text)
 
 
+def replace_punct(text, replace_with=" "):
+    return text.translate(
+        dict.fromkeys(
+            (i for i in range(sys.maxunicode) if category(chr(i)).startswith("P")),
+            replace_with,
+        )
+    )
+
+
 def remove_punct(text):
     """
     Replace punctuations from ``text`` with whitespaces.
@@ -178,6 +190,7 @@ def clean(
     replace_with_number="<NUMBER>",
     replace_with_digit="0",
     replace_with_currency_symbol="<CUR>",
+    replace_with_punct="",
     lang="en",
 ):
     """
@@ -207,6 +220,7 @@ def clean(
         replace_with_number (str): special NUMBER token, default "<NUMBER>",
         replace_with_digit (str): special DIGIT token, default "0",
         replace_with_currency_symbol (str): special CURRENCY token, default "<CUR>",
+        replace_with_punct (str): replace punctuations with this token, default "",
         lang (str): special language-depended preprocessing. Besides the default English ('en'), only German ('de') is supported
 
     Returns:
@@ -238,7 +252,10 @@ def clean(
     if no_digits:
         text = replace_digits(text, replace_with_digit)
     if no_punct:
-        text = remove_punct(text)
+        if replace_with_punct == "":
+            text = remove_punct(text)
+        else:
+            text = replace_punct(text, replace_with_punct)
     if lower:
         text = text.lower()
 
