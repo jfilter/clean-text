@@ -171,3 +171,16 @@ def test_whitespace():
         cleantext.clean(" pet\n\ner", normalize_whitespace=True, no_line_breaks=False)
         == "pet\ner"
     )
+
+
+emoji_line = "🤔 🙈 me, se 😌 ds 💕👭👙 hello 👩🏾‍🎓 emoji hello 👨‍👩‍👦‍👦 how are 😊 you today🙅🏽🙅🏽"
+
+def test_keep_emojis():
+    assert cleantext.clean(emoji_line) == emoji_line
+
+
+def test_remove_emojis():
+    assert cleantext.clean(emoji_line, no_emoji=True) == "me, se ds hello emoji hello how are you today"
+
+def test_remove_emojis_no_ascii():
+    assert cleantext.clean("😊 you today🙅🏽🙅🏽", to_ascii=False, no_emoji=True) == "you today"

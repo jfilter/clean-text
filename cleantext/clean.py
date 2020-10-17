@@ -7,8 +7,9 @@ import re
 import sys
 from unicodedata import category
 
-
 from ftfy import fix_text
+import emoji
+from emoji import emojize, demojize
 
 from . import constants
 from .specials import save_replace
@@ -18,8 +19,12 @@ log = logging.getLogger()
 # fall back to `unicodedata`
 try:
     from unidecode import unidecode
+
+    using_unidecode = True
 except:
     from unicodedata import normalize
+
+    using_unidecode = False
 
     unidecode = lambda x: normalize("NFKD", x)
     log.warning(
@@ -62,7 +67,7 @@ def fix_bad_unicode(text, normalization="NFC"):
     return fix_text(text, normalization=normalization)
 
 
-def to_ascii_unicode(text, lang="en"):
+def to_ascii_unicode(text, lang="en", no_emoji=False):
     """
     Try to represent unicode data in ascii characters similar to what a human
     with a US keyboard would choose.
@@ -72,6 +77,10 @@ def to_ascii_unicode(text, lang="en"):
     """
     # normalize quotes before since this improves transliteration quality
     text = fix_strange_quotes(text)
+
+    # for background: https://github.com/jfilter/clean-text/issues/11
+    if using_unidecode and not no_emoji:
+        text = demojize(text, use_aliases=True)
 
     lang = lang.lower()
     # special handling for German text to preserve umlauts
@@ -83,6 +92,10 @@ def to_ascii_unicode(text, lang="en"):
     # important to remove utility characters
     if lang == "de":
         text = save_replace(text, lang=lang, back=True)
+
+    if using_unidecode and not no_emoji:
+        text = emojize(text, use_aliases=True)
+
     return text
 
 
@@ -170,6 +183,13 @@ def remove_punct(text):
     return text.translate(constants.PUNCT_TRANSLATE_UNICODE)
 
 
+def remove_emoji(text):
+    for x in emoji.UNICODE_EMOJI:
+        if x in text:
+            text = text.replace(x, "")
+    return text
+
+
 def clean(
     text,
     fix_unicode=True,
@@ -184,6 +204,7 @@ def clean(
     no_digits=False,
     no_currency_symbols=False,
     no_punct=False,
+    no_emoji=False,
     replace_with_url="<URL>",
     replace_with_email="<EMAIL>",
     replace_with_phone_number="<PHONE>",
@@ -240,7 +261,7 @@ def clean(
     if no_currency_symbols:
         text = replace_currency_symbols(text, replace_with_currency_symbol)
     if to_ascii:
-        text = to_ascii_unicode(text, lang=lang)
+        text = to_ascii_unicode(text, lang=lang, no_emoji=no_emoji)
     if no_urls:
         text = replace_urls(text, replace_with_url)
     if no_emails:
@@ -256,6 +277,10 @@ def clean(
             text = remove_punct(text)
         else:
             text = replace_punct(text, replace_with_punct)
+
+    if no_emoji and (not to_ascii or not using_unidecode):
+        text = remove_emoji(text)
+
     if lower:
         text = text.lower()
 
