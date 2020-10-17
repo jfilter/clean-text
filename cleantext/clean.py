@@ -26,7 +26,7 @@ except:
 
     using_unidecode = False
 
-    unidecode = lambda x: normalize("NFKD", x)
+    unidecode = lambda x: normalize("NFD", x).encode("ASCII", "ignore").decode("utf-8")
     log.warning(
         "Since the GPL-licensed package `unidecode` is not installed, using Python's `unicodedata` package which yields worse results."
     )
@@ -78,8 +78,7 @@ def to_ascii_unicode(text, lang="en", no_emoji=False):
     # normalize quotes before since this improves transliteration quality
     text = fix_strange_quotes(text)
 
-    # for background: https://github.com/jfilter/clean-text/issues/11
-    if using_unidecode and not no_emoji:
+    if not no_emoji:
         text = demojize(text, use_aliases=True)
 
     lang = lang.lower()
@@ -93,7 +92,7 @@ def to_ascii_unicode(text, lang="en", no_emoji=False):
     if lang == "de":
         text = save_replace(text, lang=lang, back=True)
 
-    if using_unidecode and not no_emoji:
+    if not no_emoji:
         text = emojize(text, use_aliases=True)
 
     return text
