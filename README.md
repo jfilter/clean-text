@@ -33,11 +33,14 @@ You may want to abstain from GPL:
 pip install clean-text
 ```
 
+NB: This package is named `clean-text` and not `cleantext`.
+
 If [unidecode](https://github.com/takluyver/Unidecode) is not available, `clean-text` will resort to Python's [unicodedata.normalize](https://docs.python.org/3.7/library/unicodedata.html#unicodedata.normalize) for [transliteration](https://en.wikipedia.org/wiki/Transliteration).
-Transliteration to closest ASCII symbols involes manually mappings, i.e., `ê` to `e`. Unidecode's mapping is superiour but unicodedata's are sufficent.
+Transliteration to closest ASCII symbols involes manually mappings, i.e., `ê` to `e`.
+`unidecode`'s mapping is superiour but unicodedata's are sufficent.
 However, you may want to disable this feature altogether depending on your data and use case.
 
-NB: The package is named `clean-text` and not `cleantext`.
+To make it clear: There are **inconsistencies** between processing text with or without `unidecode`.
 
 ## Usage
 
@@ -67,7 +70,7 @@ clean("some input",
 )
 ```
 
-Carefully choose the arguments that fit your task. The default parameters are listed above. Whitespace is always normalized.
+Carefully choose the arguments that fit your task. The default parameters are listed above.
 
 You may also only use specific functions for cleaning. For this, take a look at the [source code](https://github.com/jfilter/clean-text/blob/master/cleantext/clean.py).
 
