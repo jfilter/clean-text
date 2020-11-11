@@ -97,7 +97,7 @@ If you don't like the output of `clean-text`, consider adding a [test](https://g
 -   https://github.com/jbesomi/texthero
 -   https://github.com/s/preprocessor
 -   https://github.com/facebookresearch/cc_net
-
+-   https://github.com/cbaziotis/ekphrasis
 
 ## Acknowledgements
 
