@@ -53,6 +53,7 @@ NUMBERS_REGEX = re.compile(
 )
 
 LINEBREAK_REGEX = re.compile(r"((\r\n)|[\n\v])+")
+TWO_LINEBREAK_REGEX = re.compile(r"((\r\n)|[\n\v])+((\r\n)|[\n\v])+")
 MULTI_WHITESPACE_TO_ONE_REGEX = re.compile(r"\s+")
 NONBREAKING_SPACE_REGEX = re.compile(r"(?!\n)\s+")
 

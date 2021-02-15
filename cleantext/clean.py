@@ -94,7 +94,9 @@ def to_ascii_unicode(text, lang="en", no_emoji=False):
     return text
 
 
-def normalize_whitespace(text, no_line_breaks=False):
+def normalize_whitespace(
+    text, no_line_breaks=False, strip_lines=True, keep_two_line_breaks=False
+):
     """
     Given ``text`` str, replace one or more spacings with a single space, and one
     or more line breaks with a single newline. Also strip leading/trailing whitespace.
@@ -102,9 +104,17 @@ def normalize_whitespace(text, no_line_breaks=False):
     if no_line_breaks:
         text = constants.MULTI_WHITESPACE_TO_ONE_REGEX.sub(" ", text)
     else:
-        text = constants.NONBREAKING_SPACE_REGEX.sub(
-            " ", constants.LINEBREAK_REGEX.sub(r"\n", text)
-        )
+        if keep_two_line_breaks:
+            text = constants.NONBREAKING_SPACE_REGEX.sub(
+                " ", constants.TWO_LINEBREAK_REGEX.sub(r"\n\n", text)
+            )
+        else:
+            text = constants.NONBREAKING_SPACE_REGEX.sub(
+                " ", constants.LINEBREAK_REGEX.sub(r"\n", text)
+            )
+    if strip_lines:
+        text = "\n".join([x.strip() for x in text.splitlines()])
+
     return text.strip()
 
 
@@ -192,6 +202,8 @@ def clean(
     lower=True,
     normalize_whitespace=True,
     no_line_breaks=False,
+    strip_lines=True,
+    keep_two_line_breaks=False,
     no_urls=False,
     no_emails=False,
     no_phone_numbers=False,
@@ -280,6 +292,6 @@ def clean(
         text = text.lower()
 
     if normalize_whitespace:
-        text = _normalize_whitespace(text, no_line_breaks)
+        text = _normalize_whitespace(text, no_line_breaks, strip_lines, keep_two_line_breaks)
 
     return text

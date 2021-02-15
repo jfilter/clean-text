@@ -173,14 +173,81 @@ def test_whitespace():
     )
 
 
-emoji_line = "🤔 🙈 me, se 😌 ds 💕👭👙 hello 👩🏾‍🎓 emoji hello 👨‍👩‍👦‍👦 how are 😊 you today🙅🏽🙅🏽"
+emoji_line = (
+    "🤔 🙈 me, se 😌 ds 💕👭👙 hello 👩🏾‍🎓 emoji hello 👨‍👩‍👦‍👦 how are 😊 you today🙅🏽🙅🏽"
+)
+
 
 def test_keep_emojis():
     assert cleantext.clean(emoji_line) == emoji_line
 
 
 def test_remove_emojis():
-    assert cleantext.clean(emoji_line, no_emoji=True) == "me, se ds hello emoji hello how are you today"
+    assert (
+        cleantext.clean(emoji_line, no_emoji=True)
+        == "me, se ds hello emoji hello how are you today"
+    )
+
 
 def test_remove_emojis_no_ascii():
-    assert cleantext.clean("😊 you today🙅🏽🙅🏽", to_ascii=False, no_emoji=True) == "you today"
+    assert (
+        cleantext.clean("😊 you today🙅🏽🙅🏽", to_ascii=False, no_emoji=True) == "you today"
+    )
+
+
+def test_remove_trail_leading_whitespace():
+    text_input = """
+    Sehr geehrte Damen und Herren,
+
+ich möchte Sie bitten, zu folgendem Fall Stellung zu nehmen. Ich habe einen Fotoautomaten für biometrische Passfotos benutzt, der mein Gesicht nicht erkannt hat. Es besteht die Vermutung, dass dieser Fotoautomat vom BSI zertifiziert ist (Zertifikat BSI-DSZ-CC-0985-2018).
+
+Der Fotoautomat steht in  19061  Berlin.
+
+
+
+		Marke: Fotofix
+
+
+
+
+
+		Ort des Automats: Bezirksamt / Bürgeramt / Bürgerbüro
+
+
+
+
+
+Mit freundlichen Grüßen,
+Johannes dfdfd
+    """
+
+    text_output = """Sehr geehrte Damen und Herren,
+
+ich möchte Sie bitten, zu folgendem Fall Stellung zu nehmen. Ich habe einen Fotoautomaten für biometrische Passfotos benutzt, der mein Gesicht nicht erkannt hat. Es besteht die Vermutung, dass dieser Fotoautomat vom BSI zertifiziert ist (Zertifikat BSI-DSZ-CC-0985-2018).
+
+Der Fotoautomat steht in 19061 Berlin.
+
+Marke: Fotofix
+
+Ort des Automats: Bezirksamt / Bürgeramt / Bürgerbüro
+
+Mit freundlichen Grüßen,
+Johannes dfdfd"""
+
+    print(
+        cleantext.clean(
+            text_input,
+            lower=False,
+            lang="de",
+            no_line_breaks=False,
+            keep_two_line_breaks=True,
+        )
+    )
+
+    assert text_output == cleantext.clean(
+        text_input,
+        lower=False,
+        lang="de",
+        no_line_breaks=False,
+        keep_two_line_breaks=True,
+    )
