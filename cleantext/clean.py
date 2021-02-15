@@ -7,9 +7,8 @@ import re
 import sys
 from unicodedata import category
 
+from emoji import UNICODE_EMOJI, demojize, emojize
 from ftfy import fix_text
-import emoji
-from emoji import emojize, demojize
 
 from . import constants
 from .specials import save_replace
@@ -180,7 +179,7 @@ def remove_punct(text):
 
 
 def remove_emoji(text):
-    for x in emoji.UNICODE_EMOJI:
+    for x in UNICODE_EMOJI:
         if x in text:
             text = text.replace(x, "")
     return text
