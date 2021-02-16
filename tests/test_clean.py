@@ -251,3 +251,38 @@ Johannes dfdfd"""
         no_line_breaks=False,
         keep_two_line_breaks=True,
     )
+
+def test_remove_trail_leading_whitespace():
+    text_input = b'Sehr geehrte Damen und Herren,\\r\\n\\r\\nich m\\xf6chte Sie bitten, zu folgendem Fall Stellung zu nehmen. Ich habe einen Fotoautomaten f\\xfcr biometrische Passfotos benutzt, der mein Gesicht nicht erkannt hat. Es besteht die Vermutung, dass dieser Fotoautomat vom BSI zertifiziert ist (Zertifikat BSI-DSZ-CC-0985-2018).\\r\\n\\r\\nDer Fotoautomat steht in  .\\r\\n\\r\\n\\r\\n\\t\\r\\n\\t\\tOrt des Automats: \\r\\n\\t\\r\\n\\r\\n\\r\\n\\r\\n \\r\\n\\t\\r\\n\\t\\tMarke: \\r\\n\\t\\r\\n\\r\\n\\r\\n\\r\\n\\r\\nHier noch Text von Anna Lena.\\r\\n\\r\\nMit freundlichen Gr\\xfc\\xdfen'
+    text_input = text_input.decode('unicode_escape')
+    text_output = """Sehr geehrte Damen und Herren,
+
+ich möchte Sie bitten, zu folgendem Fall Stellung zu nehmen. Ich habe einen Fotoautomaten für biometrische Passfotos benutzt, der mein Gesicht nicht erkannt hat. Es besteht die Vermutung, dass dieser Fotoautomat vom BSI zertifiziert ist (Zertifikat BSI-DSZ-CC-0985-2018).
+
+Der Fotoautomat steht in .
+
+Ort des Automats:
+
+Marke:
+
+Hier noch Text von Anna Lena.
+
+Mit freundlichen Grüßen"""
+
+    print(
+        cleantext.clean(
+            text_input,
+            lower=False,
+            lang="de",
+            no_line_breaks=False,
+            keep_two_line_breaks=True,
+        )
+    )
+
+    assert text_output == cleantext.clean(
+        text_input,
+        lower=False,
+        lang="de",
+        no_line_breaks=False,
+        keep_two_line_breaks=True,
+    )

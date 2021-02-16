@@ -101,6 +101,9 @@ def normalize_whitespace(
     Given ``text`` str, replace one or more spacings with a single space, and one
     or more line breaks with a single newline. Also strip leading/trailing whitespace.
     """
+    if strip_lines:
+        text = "\n".join([x.strip() for x in text.splitlines()])
+
     if no_line_breaks:
         text = constants.MULTI_WHITESPACE_TO_ONE_REGEX.sub(" ", text)
     else:
@@ -112,8 +115,6 @@ def normalize_whitespace(
             text = constants.NONBREAKING_SPACE_REGEX.sub(
                 " ", constants.LINEBREAK_REGEX.sub(r"\n", text)
             )
-    if strip_lines:
-        text = "\n".join([x.strip() for x in text.splitlines()])
 
     return text.strip()
 
