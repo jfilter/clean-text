@@ -20,7 +20,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = ">=3.5"
-ftfy = {version = "^5.8"}
+ftfy = {version = "^6.0"}
 unidecode = { version = "^1.1.1", optional = true }
 emoji = "*"
 
