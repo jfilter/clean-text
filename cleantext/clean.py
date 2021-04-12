@@ -190,7 +190,7 @@ def remove_punct(text):
 
 
 def remove_emoji(text):
-    for x in UNICODE_EMOJI['en']:
+    for x in UNICODE_EMOJI["en"]:
         if x in text:
             text = text.replace(x, "")
     return text
@@ -293,6 +293,8 @@ def clean(
         text = text.lower()
 
     if normalize_whitespace:
-        text = _normalize_whitespace(text, no_line_breaks, strip_lines, keep_two_line_breaks)
+        text = _normalize_whitespace(
+            text, no_line_breaks, strip_lines, keep_two_line_breaks
+        )
 
     return text
