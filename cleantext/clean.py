@@ -190,7 +190,7 @@ def remove_punct(text):
 
 
 def remove_emoji(text):
-    for x in UNICODE_EMOJI:
+    for x in UNICODE_EMOJI['en']:
         if x in text:
             text = text.replace(x, "")
     return text
