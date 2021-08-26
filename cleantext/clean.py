@@ -54,9 +54,9 @@ def fix_bad_unicode(text, normalization="NFC"):
     Returns:
         str
     """
-    # fix if the unicode is fucked up
+    # trying to fix backslash-replaced strings (via https://stackoverflow.com/a/57192592/4028896)
     try:
-        text = text.encode().decode("unicode-escape")
+        text = text.encode("latin", "backslashreplace").decode("unicode-escape")
     except:
         pass
 
