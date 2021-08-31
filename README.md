@@ -1,4 +1,4 @@
-# `clean-text` [![Build Status](https://travis-ci.com/jfilter/clean-text.svg?branch=master)](https://travis-ci.com/jfilter/clean-text) [![PyPI](https://img.shields.io/pypi/v/clean-text.svg)](https://pypi.org/project/clean-text/) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/clean-text.svg)](https://pypi.org/project/clean-text/) [![PyPI - Downloads](https://img.shields.io/pypi/dm/clean-text)](https://pypistats.org/packages/clean-text)
+# `clean-text` [![Build Status](https://img.shields.io/github/workflow/status/jfilter/clean-text/Test)](https://github.com/jfilter/clean-text/actions/workflows/test.yml) [![PyPI](https://img.shields.io/pypi/v/clean-text.svg)](https://pypi.org/project/clean-text/) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/clean-text.svg)](https://pypi.org/project/clean-text/) [![PyPI - Downloads](https://img.shields.io/pypi/dm/clean-text)](https://pypistats.org/packages/clean-text)
 
 User-generated content on the Web and in social media is often dirty. Preprocess your scraped data with `clean-text` to create a normalized text representation. For instance, turn this corrupted input:
 
@@ -98,7 +98,7 @@ If you don't like the output of `clean-text`, consider adding a [test](https://g
 -   https://github.com/s/preprocessor
 -   https://github.com/facebookresearch/cc_net
 -   https://github.com/cbaziotis/ekphrasis
--   https://github.com/artefactory/NLPretext 
+-   https://github.com/artefactory/NLPretext
 
 ## Acknowledgements
 

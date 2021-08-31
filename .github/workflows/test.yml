@@ -1,0 +1,32 @@
+name: Test
+
+on: [push, workflow_dispatch]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                python-version: [3.6, 3.7, 3.8, 3.9]
+                with-gpl: ["True", "False"]
+
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-python@v1
+              with:
+                  python-version: ${{ matrix.python-version }}
+            - uses: Gr1N/setup-poetry@v7
+            - uses: actions/cache@v2
+              with:
+                  path: ~/.cache/pypoetry/virtualenvs
+                  key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
+
+            - name: install with GPL
+              if: ${{ matrix.with-gpl == 'True' }}
+              run: poetry install
+
+            - name: install without GPL
+              if: ${{ matrix.with-gpl == 'False' }}
+              run: poetry add --lock pytest && poetry install --no-dev
+
+            - run: poetry run pytest
