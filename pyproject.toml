@@ -22,6 +22,7 @@ emoji = "*"
 ftfy = {version = "^6.0"}
 python = ">=3.6"
 unidecode = {version = "^1.1.1", optional = true}
+scikit-learn = "0.24"
 
 [tool.poetry.dev-dependencies]
 black = {version = "*", allow-prereleases = true, python = ">=3.6"}

@@ -74,6 +74,16 @@ Carefully choose the arguments that fit your task. The default parameters are li
 
 You may also only use specific functions for cleaning. For this, take a look at the [source code](https://github.com/jfilter/clean-text/blob/master/cleantext/clean.py).
 
+There is also **Scikit-learn** compatible api to use in your pipelines. All of the parameters above work here as well.
+
+```python
+from cleantext import CleanTransformer
+
+cleaner = CleanTransformer(no_punct=False, lower=False)
+
+cleaner.transform('Happily clean your text!')
+```
+
 So far, only English and German are fully supported. It should work for the majority of western languages. If you need some special handling for your language, feel free to contribute. 🙃
 
 ## Development
