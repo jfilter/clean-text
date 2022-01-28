@@ -5,6 +5,7 @@ classifiers = [
   "Programming Language :: Python :: 3.7",
   "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
   "License :: OSI Approved :: Apache Software License",
 ]
 description = "Functions to preprocess and normalize text."
@@ -18,7 +19,7 @@ readme = "README.md"
 version = "0.5.0"
 
 [tool.poetry.dependencies]
-emoji = "*"
+emoji = "^1.0.0"
 ftfy = {version = "^6.0"}
 python = ">=3.6"
 unidecode = {version = "^1.1.1", optional = true}
