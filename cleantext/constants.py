@@ -1,5 +1,5 @@
 """
-
+Constant symbols and compiled RegExs use for cleaning.
 """
 
 import re

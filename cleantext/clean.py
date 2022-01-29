@@ -20,7 +20,7 @@ log = logging.getLogger()
 try:
     from unidecode import unidecode
 
-except:
+except ImportError:
     from unicodedata import normalize
 
     unidecode = lambda x: normalize("NFD", x).encode("ASCII", "ignore").decode("utf-8")
@@ -52,8 +52,6 @@ def fix_bad_unicode(text, normalization="NFC"):
             if 'NFKC', additional normalizations are applied that can change
             the meanings of characters, e.g. ellipsis characters will be replaced
             with three periods
-    Returns:
-        str
     """
     # trying to fix backslash-replaced strings (via https://stackoverflow.com/a/57192592/4028896)
     try:
@@ -126,27 +124,37 @@ def _normalize_whitespace(*kwargs):
 
 
 def replace_urls(text, replace_with="<URL>"):
-    """Replace all URLs in ``text`` str with ``replace_with`` str."""
+    """
+    Replace all URLs in ``text`` str with ``replace_with`` str.
+    """
     return constants.URL_REGEX.sub(replace_with, text)
 
 
 def replace_emails(text, replace_with="<EMAIL>"):
-    """Replace all emails in ``text`` str with ``replace_with`` str."""
+    """
+    Replace all emails in ``text`` str with ``replace_with`` str.
+    """
     return constants.EMAIL_REGEX.sub(replace_with, text)
 
 
 def replace_phone_numbers(text, replace_with="<PHONE>"):
-    """Replace all phone numbers in ``text`` str with ``replace_with`` str."""
+    """
+    Replace all phone numbers in ``text`` str with ``replace_with`` str.
+    """
     return constants.PHONE_REGEX.sub(replace_with, text)
 
 
 def replace_numbers(text, replace_with="<NUMBER>"):
-    """Replace all numbers in ``text`` str with ``replace_with`` str."""
+    """
+    Replace all numbers in ``text`` str with ``replace_with`` str.
+    """
     return constants.NUMBERS_REGEX.sub(replace_with, text)
 
 
 def replace_digits(text, replace_with="0"):
-    """Replace all digits in ``text`` str with ``replace_with`` str, i.e., 123.34 to 000.00"""
+    """
+    Replace all digits in ``text`` str with ``replace_with`` str, i.e., 123.34 to 000.00
+    """
     return re.sub(r"\d", replace_with, text)
 
 
@@ -159,8 +167,6 @@ def replace_currency_symbols(text, replace_with="<CUR>"):
             their standard 3-letter abbreviations (e.g. '$' with 'USD', '£' with 'GBP');
             otherwise, pass in a string with which to replace all symbols
             (e.g. "*CURRENCY*")
-    Returns:
-        str
     """
     if replace_with is None:
         for k, v in constants.CURRENCIES.items():
@@ -171,6 +177,9 @@ def replace_currency_symbols(text, replace_with="<CUR>"):
 
 
 def replace_punct(text, replace_with=" "):
+    """
+    Replace punctuations from ``text`` with whitespaces (or other tokens).
+    """
     return text.translate(
         dict.fromkeys(
             (i for i in range(sys.maxunicode) if category(chr(i)).startswith("P")),
@@ -181,11 +190,7 @@ def replace_punct(text, replace_with=" "):
 
 def remove_punct(text):
     """
-    Replace punctuations from ``text`` with whitespaces.
-    Args:
-        text (str): raw text
-    Returns:
-        str
+    Remove punctuations from ``text``.
     """
     return text.translate(constants.PUNCT_TRANSLATE_UNICODE)
 
@@ -252,9 +257,6 @@ def clean(
 
     Returns:
         str: input ``text`` processed according to function args
-    Warning:
-        These changes may negatively affect subsequent NLP analysis performed
-        on the text, so choose carefully, and preprocess at your own risk!
     """
 
     if text is None:

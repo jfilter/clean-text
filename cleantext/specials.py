@@ -1,3 +1,7 @@
+"""
+Language-specific edge case handling.
+"""
+
 import unicodedata
 
 # add new languages here
