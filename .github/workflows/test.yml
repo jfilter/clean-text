@@ -7,8 +7,16 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                python-version: [3.6, 3.7, 3.8, 3.9, "3.10"]
-                with-gpl: ["True", "False"]
+                python-version: [3.7, 3.8, 3.9]
+                # Python 3.10 is not working due to a bug with numpy
+                # python-version: [3.7, 3.8, 3.9, "3.10"]
+                extras:
+                    [
+                        "",
+                        '--extras "gpl"',
+                        '--extras "sklearn"',
+                        '--extras "gpl sklearn"',
+                    ]
 
         steps:
             - uses: actions/checkout@v2
@@ -19,14 +27,9 @@ jobs:
             - uses: actions/cache@v2
               with:
                   path: ~/.cache/pypoetry/virtualenvs
-                  key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
+                  key: ${{ runner.os }}-${{ matrix.python-version }}-${{ matrix.extras }}-poetry-${{ hashFiles('poetry.lock') }}
 
-            - name: install with GPL
-              if: ${{ matrix.with-gpl == 'True' }}
-              run: poetry install
-
-            - name: install without GPL
-              if: ${{ matrix.with-gpl == 'False' }}
-              run: poetry add --lock pytest && poetry install --no-dev
+            - name: Install depedencies with all extras combinations
+              run: poetry install --no-dev ${{ matrix.extras }} && poetry run pip install pytest
 
             - run: poetry run pytest

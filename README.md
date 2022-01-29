@@ -74,21 +74,33 @@ Carefully choose the arguments that fit your task. The default parameters are li
 
 You may also only use specific functions for cleaning. For this, take a look at the [source code](https://github.com/jfilter/clean-text/blob/master/cleantext/clean.py).
 
-There is also **Scikit-learn** compatible api to use in your pipelines. All of the parameters above work here as well.
+### Supported languages
+
+So far, only English and German are fully supported.
+It should work for the majority of western languages.
+If you need some special handling for your language, feel free to contribute. 🙃
+
+### Using `clean-text` with `scikit-learn`
+
+There is also **scikit-learn** compatible API to use in your pipelines.
+All of the parameters above work here as well.
+
+```bash
+pip install clean-text[gpl,sklearn]
+pip install clean-text[sklearn]
+```
 
 ```python
-from cleantext import CleanTransformer
+from cleantext.sklearn import CleanTransformer
 
 cleaner = CleanTransformer(no_punct=False, lower=False)
 
-cleaner.transform('Happily clean your text!')
+cleaner.transform(['Happily clean your text!', 'Another Input'])
 ```
-
-So far, only English and German are fully supported. It should work for the majority of western languages. If you need some special handling for your language, feel free to contribute. 🙃
 
 ## Development
 
-[Install and use poetry](https://python-poetry.org/).
+[Use poetry.](https://python-poetry.org/)
 
 ## Contributing
 
@@ -117,9 +129,3 @@ Built upon the work by [Burton DeWilde](https://github.com/bdewilde) for [Textac
 ## License
 
 Apache
-
-## Sponsoring
-
-This work was created as part of a [project](https://github.com/jfilter/ptf-kommentare) that was funded by the German [Federal Ministry of Education and Research](https://www.bmbf.de/en/index.html).
-
-<img src="./bmbf_funded.svg">
