@@ -112,15 +112,32 @@ If you don't like the output of `clean-text`, consider adding a [test](https://g
 
 ## Related Work
 
+### Generic text cleaning packages
+
 -   https://github.com/pudo/normality
 -   https://github.com/davidmogar/cucco
 -   https://github.com/lyeoni/prenlp
+-   https://github.com/s/preprocessor
+-   https://github.com/artefactory/NLPretext
+-   https://github.com/cbaziotis/ekphrasis
+
+### Full-blown NLP libraries with some text cleaning
+
 -   https://github.com/chartbeat-labs/textacy
 -   https://github.com/jbesomi/texthero
--   https://github.com/s/preprocessor
+
+### Remove or replace strings
+
+-   https://github.com/vi3k6i5/flashtext
+-   https://github.com/ddelange/retrie
+
+### Detect dates
+
+-   https://github.com/scrapinghub/dateparser
+
+### Clean massive Common Crawl data
+
 -   https://github.com/facebookresearch/cc_net
--   https://github.com/cbaziotis/ekphrasis
--   https://github.com/artefactory/NLPretext
 
 ## Acknowledgements
 
