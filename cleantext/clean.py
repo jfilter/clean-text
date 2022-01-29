@@ -12,6 +12,7 @@ from ftfy import fix_text
 
 from . import constants
 from .specials import save_replace
+from .utils import remove_substrings
 
 log = logging.getLogger()
 
@@ -190,10 +191,7 @@ def remove_punct(text):
 
 
 def remove_emoji(text):
-    for x in UNICODE_EMOJI["en"]:
-        if x in text:
-            text = text.replace(x, "")
-    return text
+    return remove_substrings(text, UNICODE_EMOJI["en"])
 
 
 def clean(
