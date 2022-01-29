@@ -72,7 +72,7 @@ clean("some input",
 
 Carefully choose the arguments that fit your task. The default parameters are listed above.
 
-You may also only use specific functions for cleaning. For this, take a look at the [source code](https://github.com/jfilter/clean-text/blob/master/cleantext/clean.py).
+You may also only use specific functions for cleaning. For this, take a look at the [source code](https://github.com/jfilter/clean-text/blob/main/cleantext/clean.py).
 
 ### Supported languages
 
@@ -108,7 +108,7 @@ If you have a **question**, found a **bug** or want to propose a new **feature**
 
 **Pull requests** are especially welcomed when they fix bugs or improve the code quality.
 
-If you don't like the output of `clean-text`, consider adding a [test](https://github.com/jfilter/clean-text/tree/master/tests) with your specific input and desired output.
+If you don't like the output of `clean-text`, consider adding a [test](https://github.com/jfilter/clean-text/tree/main/tests) with your specific input and desired output.
 
 ## Related Work
 
