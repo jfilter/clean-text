@@ -7,7 +7,7 @@ import re
 import sys
 from unicodedata import category
 
-from emoji import UNICODE_EMOJI, demojize, emojize
+from emoji import EMOJI_DATA, demojize, emojize
 from ftfy import fix_text
 
 from . import constants
@@ -196,7 +196,8 @@ def remove_punct(text):
 
 
 def remove_emoji(text):
-    return remove_substrings(text, UNICODE_EMOJI["en"])
+    emoji_data_en = {k: v['en'] for k, v in EMOJI_DATA.items()}
+    return remove_substrings(text, emoji_data_en)
 
 
 def clean(
