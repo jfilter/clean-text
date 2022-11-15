@@ -288,5 +288,3 @@ Mit freundlichen Grüßen"""
         no_line_breaks=False,
         keep_two_line_breaks=True,
     )
-
-test_replace_numbers()
