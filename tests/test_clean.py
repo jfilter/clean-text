@@ -93,8 +93,8 @@ def test_replace_phone_numbers():
 
 
 def test_replace_numbers():
-    text = "I owe $1,000.99 to 123 people for 2 +1 reasons."
-    proc_text = "I owe $*NUM* to *NUM* people for *NUM* *NUM* reasons."
+    text = "I owe $1,000.99 to 123 peo4ple for 2 +1 reasons."
+    proc_text = "I owe $*NUM* to *NUM* peo*NUM*ple for *NUM* *NUM* reasons."
     assert cleantext.replace_numbers(text, "*NUM*") == proc_text
 
 
@@ -288,3 +288,5 @@ Mit freundlichen Grüßen"""
         no_line_breaks=False,
         keep_two_line_breaks=True,
     )
+
+test_replace_numbers()
