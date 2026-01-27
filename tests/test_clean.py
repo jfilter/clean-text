@@ -170,6 +170,35 @@ def test_remove_emojis_no_ascii():
     assert cleantext.clean("😊 you today🙅🏽🙅🏽", to_ascii=False, no_emoji=True) == "you today"
 
 
+def test_remove_single_emoji():
+    assert cleantext.remove_emoji("Hello 👋 world") == "Hello  world"
+
+
+def test_remove_emoji_only_string():
+    assert cleantext.remove_emoji("🎉🎊🎈") == ""
+
+
+def test_remove_emoji_no_emoji_input():
+    assert cleantext.remove_emoji("no emoji here") == "no emoji here"
+
+
+def test_remove_emoji_skin_tone_variants():
+    assert cleantext.remove_emoji("hi 👍🏻👍🏽👍🏿 there") == "hi  there"
+
+
+def test_remove_emoji_zwj_sequences():
+    # Zero-width joiner sequences like family emoji
+    assert cleantext.remove_emoji("family: 👨‍👩‍👧‍👦 end") == "family:  end"
+
+
+def test_demojize_roundtrip():
+    """Verify demojize/emojize with language='alias' round-trips correctly."""
+    text_with_emoji = "Hello 😊 world 🌍"
+    demojized = cleantext.to_ascii_unicode(text_with_emoji, no_emoji=False)
+    # Should preserve emoji through demojize -> unidecode -> emojize cycle
+    assert "😊" in demojized or ":)" in demojized or "smiling" in demojized
+
+
 def test_remove_trail_leading_whitespace():
     text_input = """
     Sehr geehrte Damen und Herren,

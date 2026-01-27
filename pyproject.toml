@@ -19,7 +19,7 @@ readme = "README.md"
 version = "0.6.0"
 
 [tool.poetry.dependencies]
-emoji = ">=1.0.0,<3.0.0"
+emoji = ">=2.1.0"
 ftfy = {version = "^6.0"}
 pandas = {version = ">=1.0.0,<3.0.0", optional = true}
 python = ">=3.9"
