@@ -7,7 +7,14 @@ import re
 import sys
 from unicodedata import category
 
-from emoji import UNICODE_EMOJI, demojize, emojize
+from emoji import demojize, emojize
+
+try:
+    from emoji import EMOJI_DATA
+except ImportError:
+    from emoji import UNICODE_EMOJI
+
+    EMOJI_DATA = None
 from ftfy import fix_text
 
 from . import constants
@@ -74,7 +81,7 @@ def to_ascii_unicode(text, lang="en", no_emoji=False):
     text = fix_strange_quotes(text)
 
     if not no_emoji:
-        text = demojize(text, use_aliases=True)
+        text = demojize(text)
 
     lang = lang.lower()
     # special handling for German text to preserve umlauts
@@ -88,7 +95,7 @@ def to_ascii_unicode(text, lang="en", no_emoji=False):
         text = save_replace(text, lang=lang, back=True)
 
     if not no_emoji:
-        text = emojize(text, use_aliases=True)
+        text = emojize(text)
 
     return text
 
@@ -196,6 +203,8 @@ def remove_punct(text):
 
 
 def remove_emoji(text):
+    if EMOJI_DATA is not None:
+        return remove_substrings(text, EMOJI_DATA)
     return remove_substrings(text, UNICODE_EMOJI["en"])
 
 
