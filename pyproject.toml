@@ -47,6 +47,7 @@ select = ["E", "F", "W", "I", "UP"]
 [tool.ruff.lint.per-file-ignores]
 "cleantext/__init__.py" = ["F403"]
 "cleantext/constants.py" = ["E501"]
+"cleantext/specials.py" = ["E501"]
 "tests/*" = ["E501"]
 
 [build-system]

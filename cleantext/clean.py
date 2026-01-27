@@ -12,7 +12,7 @@ from emoji import demojize, emojize
 from ftfy import fix_text
 
 from . import constants
-from .specials import save_replace
+from .specials import save_replace, specials_map
 
 log = logging.getLogger()
 
@@ -81,13 +81,13 @@ def to_ascii_unicode(text, lang="en", no_emoji=False):
 
     lang = lang.lower()
     # special handling for German text to preserve umlauts
-    if lang == "de":
+    if lang in specials_map:
         text = save_replace(text, lang=lang)
 
     text = unidecode(text)
 
     # important to remove utility characters
-    if lang == "de":
+    if lang in specials_map:
         text = save_replace(text, lang=lang, back=True)
 
     if not no_emoji:
@@ -252,7 +252,10 @@ def clean(
         replace_with_currency_symbol (str): special CURRENCY token, default "<CUR>",
         replace_with_punct (str): replace punctuations with this token, default "",
         lang (str): special language-depended preprocessing.
-            Besides the default English ('en'), only German ('de') is supported
+            Besides the default English ('en'), Danish ('da'), Faroese ('fo'),
+            French ('fr'), German ('de'), Icelandic ('is'), Italian ('it'),
+            Norwegian ('no'), Scandinavian ('sv'), Spanish ('es'),
+            and Swedish ('se') are supported
 
     Returns:
         str: input ``text`` processed according to function args
