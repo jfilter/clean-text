@@ -68,7 +68,13 @@ class CleanTransformer(TransformerMixin, BaseEstimator):
         self.replace_with_punct = replace_with_punct
         self.lang = lang
 
-    def fit(self, X: Any):
+    def fit(self, X: Any, y=None):
+        """
+        This method is defined for compatibility. It does nothing.
+        """
+        return self
+
+    def partial_fit(self, X: Any, y=None):
         """
         This method is defined for compatibility. It does nothing.
         """
@@ -89,3 +95,14 @@ class CleanTransformer(TransformerMixin, BaseEstimator):
             return X.apply(lambda text: clean(text, **self.get_params()))
         else:
             return list(map(lambda text: clean(text, **self.get_params()), X))
+
+    def get_feature_names_out(self, feature_names_out=None):
+        """
+        For compatibility with scikit-learn Pipeline objects.
+        This transformer will only return one column, which is ``'Clean Text``.
+        Args:
+            feature_names_out: Defined for compatibility with scikit-learn.
+        Returns:
+            list[str]: List with one element (i.e. The cleaned text column).
+        """
+        return ["Clean Text"]

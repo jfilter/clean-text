@@ -25,5 +25,12 @@ try:
         assert transformer.get_params()["no_line_breaks"]
         assert transformer.get_params()["no_digits"]
 
+    def test_get_feature_names_out():
+        feature_names = transformer.get_feature_names_out()
+        assert feature_names == ["Clean Text"]
+
+    def test_fit():
+        transformer.fit(["sample1", "sample2"], [0, 1])
+        transformer.partial_fit(["sample1", "sample2"])
 except ImportError:
     pass
