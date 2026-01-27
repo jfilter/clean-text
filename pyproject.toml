@@ -23,7 +23,7 @@ emoji = ">=1.0.0,<3.0.0"
 ftfy = {version = "^6.0"}
 pandas = {version = ">=1.0.0,<3.0.0", optional = true}
 python = ">=3.9"
-scikit-learn = {version = "^1.0.0", optional = true}
+scikit-learn = {version = ">=1.5.0", optional = true}
 unidecode = {version = "^1.1.1", optional = true}
 
 [tool.poetry.group.dev.dependencies]
