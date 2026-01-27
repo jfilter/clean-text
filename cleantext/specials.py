@@ -28,10 +28,7 @@ def save_replace(text, lang, back=False):
     possibilities = (
         specials[lang]["case_sensitive"]
         + [[norm(x[0]), x[1]] for x in specials[lang]["case_insensitive"]]
-        + [
-            [norm(x[0].upper()), x[1].upper()]
-            for x in specials[lang]["case_insensitive"]
-        ]
+        + [[norm(x[0].upper()), x[1].upper()] for x in specials[lang]["case_insensitive"]]
     )
     for pattern, target in possibilities:
         if back:

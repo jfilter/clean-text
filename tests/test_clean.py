@@ -87,9 +87,7 @@ phone_numbers = [
 def test_replace_phone_numbers():
     for x in phone_numbers:
         x_phone = cleantext.replace_phone_numbers(x, "*PHONE*")
-        assert "PHONE" in x_phone and not any(map(str.isdigit, x_phone)), (
-            x + " / " + x_phone
-        )
+        assert "PHONE" in x_phone and not any(map(str.isdigit, x_phone)), x + " / " + x_phone
 
 
 def test_replace_numbers():
@@ -100,9 +98,7 @@ def test_replace_numbers():
 
 def test_remove_punct():
     text = "I can't. No, I won't! It's a matter of \"principle\"; of -- what's the word? -- conscience."
-    proc_text = (
-        "I cant No I wont Its a matter of principle of  whats the word  conscience"
-    )
+    proc_text = "I cant No I wont Its a matter of principle of  whats the word  conscience"
     assert cleantext.remove_punct(text) == proc_text
 
 
@@ -127,10 +123,7 @@ def test_replace_currency_symbols():
     ]
     for text, proc_text1, proc_text2 in tests:
         assert cleantext.replace_currency_symbols(text, replace_with=None) == proc_text1
-        assert (
-            cleantext.replace_currency_symbols(text, replace_with="*CUR* ")
-            == proc_text2
-        )
+        assert cleantext.replace_currency_symbols(text, replace_with="*CUR* ") == proc_text2
 
 
 def test_fix_bad_unicode():
@@ -143,16 +136,10 @@ def test_fix_bad_unicode():
 
 def test_zero_digits():
     text = "in the 1970s there was 12.3 and 111 11 33 $23 03 wins"
-    assert (
-        cleantext.replace_digits(text)
-        == "in the 0000s there was 00.0 and 000 00 00 $00 00 wins"
-    )
+    assert cleantext.replace_digits(text) == "in the 0000s there was 00.0 and 000 00 00 $00 00 wins"
 
     text = "7 Golf Records More 'Unbreakable' Than the Warriors' 73 Wins"
-    assert (
-        cleantext.replace_digits(text)
-        == "0 Golf Records More 'Unbreakable' Than the Warriors' 00 Wins"
-    )
+    assert cleantext.replace_digits(text) == "0 Golf Records More 'Unbreakable' Than the Warriors' 00 Wins"
 
 
 def test_to_ascii():
@@ -164,19 +151,11 @@ def test_to_ascii():
 def test_whitespace():
     assert cleantext.clean(" peter", normalize_whitespace=False) == " peter"
     assert cleantext.clean(" peter", normalize_whitespace=True) == "peter"
-    assert (
-        cleantext.clean(" pet\n\ner", normalize_whitespace=True, no_line_breaks=True)
-        == "pet er"
-    )
-    assert (
-        cleantext.clean(" pet\n\ner", normalize_whitespace=True, no_line_breaks=False)
-        == "pet\ner"
-    )
+    assert cleantext.clean(" pet\n\ner", normalize_whitespace=True, no_line_breaks=True) == "pet er"
+    assert cleantext.clean(" pet\n\ner", normalize_whitespace=True, no_line_breaks=False) == "pet\ner"
 
 
-emoji_line = (
-    "🤔 🙈 me, se 😌 ds 💕👭👙 hello 👩🏾‍🎓 emoji hello 👨‍👩‍👦‍👦 how are 😊 you today🙅🏽🙅🏽"
-)
+emoji_line = "🤔 🙈 me, se 😌 ds 💕👭👙 hello 👩🏾‍🎓 emoji hello 👨‍👩‍👦‍👦 how are 😊 you today🙅🏽🙅🏽"
 
 
 def test_keep_emojis():
@@ -184,16 +163,11 @@ def test_keep_emojis():
 
 
 def test_remove_emojis():
-    assert (
-        cleantext.clean(emoji_line, no_emoji=True)
-        == "me, se ds hello emoji hello how are you today"
-    )
+    assert cleantext.clean(emoji_line, no_emoji=True) == "me, se ds hello emoji hello how are you today"
 
 
 def test_remove_emojis_no_ascii():
-    assert (
-        cleantext.clean("😊 you today🙅🏽🙅🏽", to_ascii=False, no_emoji=True) == "you today"
-    )
+    assert cleantext.clean("😊 you today🙅🏽🙅🏽", to_ascii=False, no_emoji=True) == "you today"
 
 
 def test_remove_trail_leading_whitespace():
@@ -254,7 +228,7 @@ Johannes dfdfd"""
     )
 
 
-def test_remove_trail_leading_whitespace():
+def test_remove_trail_leading_whitespace_bytes():
     text_input = b"Sehr geehrte Damen und Herren,\\r\\n\\r\\nich m\\xf6chte Sie bitten, zu folgendem Fall Stellung zu nehmen. Ich habe einen Fotoautomaten f\\xfcr biometrische Passfotos benutzt, der mein Gesicht nicht erkannt hat. Es besteht die Vermutung, dass dieser Fotoautomat vom BSI zertifiziert ist (Zertifikat BSI-DSZ-CC-0985-2018).\\r\\n\\r\\nDer Fotoautomat steht in  .\\r\\n\\r\\n\\r\\n\\t\\r\\n\\t\\tOrt des Automats: \\r\\n\\t\\r\\n\\r\\n\\r\\n\\r\\n \\r\\n\\t\\r\\n\\t\\tMarke: \\r\\n\\t\\r\\n\\r\\n\\r\\n\\r\\n\\r\\nHier noch Text von Anna Lena.\\r\\n\\r\\nMit freundlichen Gr\\xfc\\xdfen"
     text_input = text_input.decode("unicode_escape")
     text_output = """Sehr geehrte Damen und Herren,

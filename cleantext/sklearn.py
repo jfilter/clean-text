@@ -2,7 +2,7 @@
 Pipeline transformer for scikit-learn to clean text
 """
 
-from typing import Any, List, Union
+from typing import Any, Union
 
 import pandas as pd
 from sklearn.base import BaseEstimator, TransformerMixin
@@ -74,7 +74,7 @@ class CleanTransformer(TransformerMixin, BaseEstimator):
         """
         return self
 
-    def transform(self, X: Union[List[str], pd.Series]) -> Union[List[str], pd.Series]:
+    def transform(self, X: Union[list[str], pd.Series]) -> Union[list[str], pd.Series]:
         """
         Normalize various aspects of each item in raw text array-like.
         Args:

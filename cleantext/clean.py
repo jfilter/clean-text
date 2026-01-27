@@ -30,9 +30,12 @@ try:
 except ImportError:
     from unicodedata import normalize
 
-    unidecode = lambda x: normalize("NFD", x).encode("ASCII", "ignore").decode("utf-8")
+    def unidecode(x):
+        return normalize("NFD", x).encode("ASCII", "ignore").decode("utf-8")
+
     log.warning(
-        "Since the GPL-licensed package `unidecode` is not installed, using Python's `unicodedata` package which yields worse results."
+        "Since the GPL-licensed package `unidecode` is not installed, "
+        "using Python's `unicodedata` package which yields worse results."
     )
 
 
@@ -63,7 +66,7 @@ def fix_bad_unicode(text, normalization="NFC"):
     # trying to fix backslash-replaced strings (via https://stackoverflow.com/a/57192592/4028896)
     try:
         text = text.encode("latin", "backslashreplace").decode("unicode-escape")
-    except:
+    except Exception:
         pass
 
     return fix_text(text, normalization=normalization)
@@ -100,9 +103,7 @@ def to_ascii_unicode(text, lang="en", no_emoji=False):
     return text
 
 
-def normalize_whitespace(
-    text, no_line_breaks=False, strip_lines=True, keep_two_line_breaks=False
-):
+def normalize_whitespace(text, no_line_breaks=False, strip_lines=True, keep_two_line_breaks=False):
     """
     Given ``text`` str, replace one or more spacings with a single space, and one
     or more line breaks with a single newline. Also strip leading/trailing whitespace.
@@ -114,13 +115,9 @@ def normalize_whitespace(
         text = constants.MULTI_WHITESPACE_TO_ONE_REGEX.sub(" ", text)
     else:
         if keep_two_line_breaks:
-            text = constants.NONBREAKING_SPACE_REGEX.sub(
-                " ", constants.TWO_LINEBREAK_REGEX.sub(r"\n\n", text)
-            )
+            text = constants.NONBREAKING_SPACE_REGEX.sub(" ", constants.TWO_LINEBREAK_REGEX.sub(r"\n\n", text))
         else:
-            text = constants.NONBREAKING_SPACE_REGEX.sub(
-                " ", constants.LINEBREAK_REGEX.sub(r"\n", text)
-            )
+            text = constants.NONBREAKING_SPACE_REGEX.sub(" ", constants.LINEBREAK_REGEX.sub(r"\n", text))
 
     return text.strip()
 
@@ -235,7 +232,8 @@ def clean(
     lang="en",
 ):
     """
-    Normalize various aspects of a raw text. A convenience function for applying all other preprocessing functions in one go.
+    Normalize various aspects of a raw text. A convenience function for applying all other
+    preprocessing functions in one go.
     Args:
         text (str): raw text to preprocess
         fix_unicode (bool): if True, fix "broken" unicode such as
@@ -262,7 +260,8 @@ def clean(
         replace_with_digit (str): special DIGIT token, default "0",
         replace_with_currency_symbol (str): special CURRENCY token, default "<CUR>",
         replace_with_punct (str): replace punctuations with this token, default "",
-        lang (str): special language-depended preprocessing. Besides the default English ('en'), only German ('de') is supported
+        lang (str): special language-depended preprocessing.
+            Besides the default English ('en'), only German ('de') is supported
 
     Returns:
         str: input ``text`` processed according to function args
@@ -302,8 +301,6 @@ def clean(
         text = text.lower()
 
     if normalize_whitespace:
-        text = _normalize_whitespace(
-            text, no_line_breaks, strip_lines, keep_two_line_breaks
-        )
+        text = _normalize_whitespace(text, no_line_breaks, strip_lines, keep_two_line_breaks)
 
     return text

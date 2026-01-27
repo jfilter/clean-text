@@ -1,15 +1,24 @@
 name: Test
 
-on: [push, workflow_dispatch]
+on: [push, pull_request, workflow_dispatch]
 
 jobs:
-    build:
+    lint:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-python@v5
+              with:
+                  python-version: "3.12"
+            - run: pip install ruff
+            - run: ruff check cleantext/ tests/
+            - run: ruff format --check cleantext/ tests/
+
+    test:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                python-version: [3.7, 3.8, 3.9]
-                # Python 3.10 is not working due to a bug with numpy
-                # python-version: [3.7, 3.8, 3.9, "3.10"]
+                python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
                 extras:
                     [
                         "",
@@ -19,17 +28,11 @@ jobs:
                     ]
 
         steps:
-            - uses: actions/checkout@v2
-            - uses: actions/setup-python@v1
+            - uses: actions/checkout@v4
+            - uses: actions/setup-python@v5
               with:
                   python-version: ${{ matrix.python-version }}
-            - uses: Gr1N/setup-poetry@v7
-            - uses: actions/cache@v2
-              with:
-                  path: ~/.cache/pypoetry/virtualenvs
-                  key: ${{ runner.os }}-${{ matrix.python-version }}-${{ matrix.extras }}-poetry-${{ hashFiles('poetry.lock') }}
-
-            - name: Install depedencies with all extras combinations
-              run: poetry install --no-dev ${{ matrix.extras }} && poetry run pip install pytest
+            - run: pip install poetry
+            - run: poetry install --only main ${{ matrix.extras }} && poetry run pip install pytest
 
             - run: poetry run pytest

@@ -1,8 +1,8 @@
 try:
-    from cleantext.sklearn import CleanTransformer
     import pandas as pd
-
     import pytest
+
+    from cleantext.sklearn import CleanTransformer
 
     transformer = CleanTransformer()
 
