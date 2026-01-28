@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.1] - 2026-01-28
+
+### Fixed
+
+- Fix scipy version constraints for Python 3.13 compatibility (use scipy 1.14+ for Python 3.10+)
+- Fix GitHub Actions badge URL in README
+- Fix test imports to skip sklearn tests when extra not installed
+
+### Added
+
+- Add pre-commit hooks for ruff lint and format
+- Add RELEASING.md with comprehensive release guide
+
 ## [0.7.0] - 2026-01-28
 
 ### Added
