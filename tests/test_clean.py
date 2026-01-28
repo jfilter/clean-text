@@ -93,6 +93,62 @@ def test_replace_phone_numbers():
         assert "PHONE" in x_phone and not any(map(str.isdigit, x_phone)), x + " / " + x_phone
 
 
+ipv4_addresses = [
+    "192.168.1.1",
+    "10.0.0.1",
+    "255.255.255.0",
+    "8.8.8.8",
+    "172.16.0.1",
+    "127.0.0.1",
+    "0.0.0.0",
+]
+
+ipv6_addresses = [
+    "2001:0db8:85a3:0000:0000:8a2e:0370:7334",
+    "2001:db8:85a3::8a2e:370:7334",
+    "::1",
+    "::",
+    "fe80::1",
+    "::ffff:192.168.1.1",
+]
+
+not_ip_addresses = [
+    "999.999.999.999",
+    "256.1.1.1",
+    "1.2.3",
+    "1.2.3.4.5",
+]
+
+
+def test_replace_ip_addresses():
+    for x in ipv4_addresses:
+        result = cleantext.replace_ip_addresses(x, "*IP*")
+        assert result == "*IP*", f"{x} -> {result}"
+
+
+def test_replace_ipv6_addresses():
+    for x in ipv6_addresses:
+        result = cleantext.replace_ip_addresses(x, "*IP*")
+        assert "*IP*" in result, f"{x} -> {result}"
+
+
+def test_not_ip_addresses():
+    for x in not_ip_addresses:
+        result = cleantext.replace_ip_addresses(x, "*IP*")
+        assert result != "*IP*", f"{x} should not be matched but got {result}"
+
+
+def test_replace_ip_in_text():
+    text = "The server at 192.168.1.1 is down and 10.0.0.1 is unreachable."
+    proc_text = "The server at *IP* is down and *IP* is unreachable."
+    assert cleantext.replace_ip_addresses(text, "*IP*") == proc_text
+
+
+def test_replace_ip_clean():
+    text = "Connect to 192.168.1.1 now"
+    assert "ip" in cleantext.clean(text, no_ip_addresses=True).lower()
+
+
 def test_replace_numbers():
     text = "I owe $1,000.99 to 123 peo4ple for 2 +1 reasons."
     proc_text = "I owe $*NUM* to *NUM* peo*NUM*ple for *NUM* *NUM* reasons."

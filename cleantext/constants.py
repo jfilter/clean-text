@@ -46,6 +46,34 @@ PHONE_REGEX = re.compile(
     r"((?:^|(?<=[^\w)]))(((00\d{1,3})|(\+?[01])|(\+\d{2}))[ .-]?)?(\(?\d{3,4}\)?/?[ .-]?)?(\d{3}[ .-]?\d{4})(\s?(?:ext\.?|[#x-])\s?\d{2,6})?(?:$|(?=\W)))|\+?\d{4,5}[ .-/]\d{6,9}"
 )
 
+_IPV4_PATTERN = (
+    r"(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"
+    r"(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}"
+)
+
+_HEX_GROUP = r"[0-9a-fA-F]{1,4}"
+
+_IPV6_PATTERN = (
+    r"(?:" + _HEX_GROUP + r":){7}" + _HEX_GROUP
+    + r"|(?:" + _HEX_GROUP + r":){1,7}:"
+    + r"|(?:" + _HEX_GROUP + r":){1,6}:" + _HEX_GROUP
+    + r"|(?:" + _HEX_GROUP + r":){1,5}(?::" + _HEX_GROUP + r"){1,2}"
+    + r"|(?:" + _HEX_GROUP + r":){1,4}(?::" + _HEX_GROUP + r"){1,3}"
+    + r"|(?:" + _HEX_GROUP + r":){1,3}(?::" + _HEX_GROUP + r"){1,4}"
+    + r"|(?:" + _HEX_GROUP + r":){1,2}(?::" + _HEX_GROUP + r"){1,5}"
+    + r"|" + _HEX_GROUP + r":(?::" + _HEX_GROUP + r"){1,6}"
+    + r"|:(?::" + _HEX_GROUP + r"){1,7}"
+    + r"|::(?:ffff(?::0{1,4})?:)?" + _IPV4_PATTERN
+    + r"|(?:" + _HEX_GROUP + r":){1,4}:" + _IPV4_PATTERN
+    + r"|::"
+)
+
+IP_REGEX = re.compile(
+    r"(?:(?:^|(?<=\s))(?:" + _IPV6_PATTERN + r")(?=\s|$))"
+    r"|(?:\b" + _IPV4_PATTERN + r"\b)",
+    flags=re.IGNORECASE | re.MULTILINE,
+)
+
 NUMBERS_REGEX = re.compile(
     r"((?<=[a-zA-Z])\d+)|(\d+(?=[a-zA-Z]))|(?:^|(?<=[^\w,.]))[+–-]?(([1-9]\d{0,2}(,\d{3})+(\.\d*)?)|([1-9]\d{0,2}([ .]\d{3})+(,\d*)?)|(\d*?[.,]\d+)|\d+)(?:$|(?=\b))"
 )

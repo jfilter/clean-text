@@ -27,6 +27,7 @@ class CleanTransformer(TransformerMixin, BaseEstimator):
         no_urls=False,
         no_emails=False,
         no_phone_numbers=False,
+        no_ip_addresses=False,
         no_numbers=False,
         no_digits=False,
         no_currency_symbols=False,
@@ -35,6 +36,7 @@ class CleanTransformer(TransformerMixin, BaseEstimator):
         replace_with_url="<URL>",
         replace_with_email="<EMAIL>",
         replace_with_phone_number="<PHONE>",
+        replace_with_ip_address="<IP>",
         replace_with_number="<NUMBER>",
         replace_with_digit="0",
         replace_with_currency_symbol="<CUR>",
@@ -54,6 +56,7 @@ class CleanTransformer(TransformerMixin, BaseEstimator):
         self.no_urls = no_urls
         self.no_emails = no_emails
         self.no_phone_numbers = no_phone_numbers
+        self.no_ip_addresses = no_ip_addresses
         self.no_numbers = no_numbers
         self.no_digits = no_digits
         self.no_currency_symbols = no_currency_symbols
@@ -62,6 +65,7 @@ class CleanTransformer(TransformerMixin, BaseEstimator):
         self.replace_with_url = replace_with_url
         self.replace_with_email = replace_with_email
         self.replace_with_phone_number = replace_with_phone_number
+        self.replace_with_ip_address = replace_with_ip_address
         self.replace_with_number = replace_with_number
         self.replace_with_digit = replace_with_digit
         self.replace_with_currency_symbol = replace_with_currency_symbol

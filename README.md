@@ -55,6 +55,7 @@ clean("some input",
     no_urls=False,                  # replace all URLs with a special token
     no_emails=False,                # replace all email addresses with a special token
     no_phone_numbers=False,         # replace all phone numbers with a special token
+    no_ip_addresses=False,          # replace all IP addresses with a special token
     no_numbers=False,               # replace all numbers with a special token
     no_digits=False,                # replace all digits with a special token
     no_currency_symbols=False,      # replace all currency symbols with a special token
@@ -63,6 +64,7 @@ clean("some input",
     replace_with_url="<URL>",
     replace_with_email="<EMAIL>",
     replace_with_phone_number="<PHONE>",
+    replace_with_ip_address="<IP>",
     replace_with_number="<NUMBER>",
     replace_with_digit="0",
     replace_with_currency_symbol="<CUR>",

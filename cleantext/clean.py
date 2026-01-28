@@ -141,6 +141,14 @@ def replace_phone_numbers(text, replace_with="<PHONE>"):
     return constants.PHONE_REGEX.sub(replace_with, text)
 
 
+def replace_ip_addresses(text, replace_with="<IP>"):
+    """
+    Replace all IP addresses in ``text`` str with ``replace_with`` str.
+    Supports both IPv4 and IPv6 addresses.
+    """
+    return constants.IP_REGEX.sub(replace_with, text)
+
+
 def replace_numbers(text, replace_with="<NUMBER>"):
     """
     Replace all numbers in ``text`` str with ``replace_with`` str.
@@ -208,6 +216,7 @@ def clean(
     no_urls=False,
     no_emails=False,
     no_phone_numbers=False,
+    no_ip_addresses=False,
     no_numbers=False,
     no_digits=False,
     no_currency_symbols=False,
@@ -216,6 +225,7 @@ def clean(
     replace_with_url="<URL>",
     replace_with_email="<EMAIL>",
     replace_with_phone_number="<PHONE>",
+    replace_with_ip_address="<IP>",
     replace_with_number="<NUMBER>",
     replace_with_digit="0",
     replace_with_currency_symbol="<CUR>",
@@ -237,6 +247,8 @@ def clean(
         no_emails (bool): if True, replace all email strings with a special EMAIL token
         no_phone_numbers (bool): if True, replace all phone number strings
             with a special PHONE token
+        no_ip_addresses (bool): if True, replace all IP address strings
+            (IPv4 and IPv6) with a special IP token
         no_numbers (bool): if True, replace all number-like strings
             with a special NUMBER token
         no_digits (bool): if True, replace all digits with a special DIGIT token
@@ -247,6 +259,7 @@ def clean(
         replace_with_url (str): special URL token, default "<URL>",
         replace_with_email (str): special EMAIL token, default "<EMAIL>",
         replace_with_phone_number (str): special PHONE token, default "<PHONE>",
+        replace_with_ip_address (str): special IP token, default "<IP>",
         replace_with_number (str): special NUMBER token, default "<NUMBER>",
         replace_with_digit (str): special DIGIT token, default "0",
         replace_with_currency_symbol (str): special CURRENCY token, default "<CUR>",
@@ -278,6 +291,8 @@ def clean(
         text = replace_emails(text, replace_with_email)
     if no_phone_numbers:
         text = replace_phone_numbers(text, replace_with_phone_number)
+    if no_ip_addresses:
+        text = replace_ip_addresses(text, replace_with_ip_address)
     if no_numbers:
         text = replace_numbers(text, replace_with_number)
     if no_digits:
