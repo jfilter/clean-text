@@ -200,6 +200,23 @@ def remove_punct(text):
     return text.translate(constants.PUNCT_TRANSLATE_UNICODE)
 
 
+def replace_code(text, replace_with="<CODE>"):
+    """
+    Replace all code snippets in ``text`` str with ``replace_with`` str.
+    Handles both fenced code blocks (triple backtick) and inline code (single backtick).
+    """
+    return constants.CODE_REGEX.sub(replace_with, text)
+
+
+def replace_file_paths(text, replace_with="<FILE_PATH>"):
+    """
+    Replace all file system paths in ``text`` str with ``replace_with`` str.
+    Handles Unix paths (/usr/local/bin), Windows paths (C:\\Windows),
+    and relative paths (./src, ../lib, ~/Documents).
+    """
+    return constants.FILE_PATH_REGEX.sub(replace_with, text)
+
+
 def remove_emoji(text):
     return emoji.replace_emoji(text, replace="")
 
@@ -213,19 +230,23 @@ def clean(
     no_line_breaks=False,
     strip_lines=True,
     keep_two_line_breaks=False,
+    no_code=False,
     no_urls=False,
     no_emails=False,
     no_phone_numbers=False,
     no_ip_addresses=False,
+    no_file_paths=False,
     no_numbers=False,
     no_digits=False,
     no_currency_symbols=False,
     no_punct=False,
     no_emoji=False,
+    replace_with_code="<CODE>",
     replace_with_url="<URL>",
     replace_with_email="<EMAIL>",
     replace_with_phone_number="<PHONE>",
     replace_with_ip_address="<IP>",
+    replace_with_file_path="<FILE_PATH>",
     replace_with_number="<NUMBER>",
     replace_with_digit="0",
     replace_with_currency_symbol="<CUR>",
@@ -243,12 +264,16 @@ def clean(
             into their closest to_ascii equivalents
         lower (bool): if True, all text is lower-cased
         no_line_breaks (bool): if True, strip line breaks from text
+        no_code (bool): if True, replace all code snippets (fenced and inline)
+            with a special CODE token
         no_urls (bool): if True, replace all URL strings with a special URL token
         no_emails (bool): if True, replace all email strings with a special EMAIL token
         no_phone_numbers (bool): if True, replace all phone number strings
             with a special PHONE token
         no_ip_addresses (bool): if True, replace all IP address strings
             (IPv4 and IPv6) with a special IP token
+        no_file_paths (bool): if True, replace all file system paths
+            with a special FILE_PATH token
         no_numbers (bool): if True, replace all number-like strings
             with a special NUMBER token
         no_digits (bool): if True, replace all digits with a special DIGIT token
@@ -256,10 +281,12 @@ def clean(
             with a special CURRENCY token
         no_punct (bool): if True, remove all punctuation (replace with
             empty string)
+        replace_with_code (str): special CODE token, default "<CODE>",
         replace_with_url (str): special URL token, default "<URL>",
         replace_with_email (str): special EMAIL token, default "<EMAIL>",
         replace_with_phone_number (str): special PHONE token, default "<PHONE>",
         replace_with_ip_address (str): special IP token, default "<IP>",
+        replace_with_file_path (str): special FILE_PATH token, default "<FILE_PATH>",
         replace_with_number (str): special NUMBER token, default "<NUMBER>",
         replace_with_digit (str): special DIGIT token, default "0",
         replace_with_currency_symbol (str): special CURRENCY token, default "<CUR>",
@@ -283,6 +310,8 @@ def clean(
         text = fix_bad_unicode(text)
     if no_currency_symbols:
         text = replace_currency_symbols(text, replace_with_currency_symbol)
+    if no_code:
+        text = replace_code(text, replace_with_code)
     if to_ascii:
         text = to_ascii_unicode(text, lang=lang, no_emoji=no_emoji)
     if no_urls:
@@ -293,6 +322,8 @@ def clean(
         text = replace_phone_numbers(text, replace_with_phone_number)
     if no_ip_addresses:
         text = replace_ip_addresses(text, replace_with_ip_address)
+    if no_file_paths:
+        text = replace_file_paths(text, replace_with_file_path)
     if no_numbers:
         text = replace_numbers(text, replace_with_number)
     if no_digits:

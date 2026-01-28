@@ -258,6 +258,105 @@ def test_demojize_roundtrip():
     assert "😊" in demojized or ":)" in demojized or "smiling" in demojized
 
 
+def test_replace_code_fenced_block():
+    text = "Here is code:\n```python\nprint('hello')\n```\nEnd."
+    assert cleantext.replace_code(text, "*CODE*") == "Here is code:\n*CODE*\nEnd."
+
+
+def test_replace_code_fenced_block_no_lang():
+    text = "Before\n```\nsome code\n```\nAfter"
+    assert cleantext.replace_code(text, "*CODE*") == "Before\n*CODE*\nAfter"
+
+
+def test_replace_code_inline():
+    text = "Use `print()` to output text."
+    assert cleantext.replace_code(text, "*CODE*") == "Use *CODE* to output text."
+
+
+def test_replace_code_multiple_inline():
+    text = "Both `foo` and `bar` are variables."
+    assert cleantext.replace_code(text, "*CODE*") == "Both *CODE* and *CODE* are variables."
+
+
+def test_replace_code_empty_backticks():
+    text = "This is `` not code."
+    assert cleantext.replace_code(text, "*CODE*") == "This is `` not code."
+
+
+def test_replace_code_preserves_regular_text():
+    text = "No code here, just regular text."
+    assert cleantext.replace_code(text, "*CODE*") == text
+
+
+file_paths = [
+    "/usr/local/bin",
+    "/etc/nginx/nginx.conf",
+    "/home/user/Documents/file.txt",
+    "C:\\Windows\\System32",
+    "C:\\Users\\Name\\file.txt",
+    "D:\\projects\\src\\main.py",
+    "./src/main.py",
+    "../lib/utils.js",
+    "~/Documents/notes.md",
+    "~/.config/settings.json",
+]
+
+not_file_paths = [
+    "hello/world",
+    "/s",
+]
+
+
+def test_replace_file_paths():
+    for path in file_paths:
+        result = cleantext.replace_file_paths(path, "*PATH*")
+        assert result == "*PATH*", f"Failed for: {path} -> {result}"
+
+
+def test_not_file_paths():
+    for path in not_file_paths:
+        result = cleantext.replace_file_paths(path, "*PATH*")
+        assert result != "*PATH*", f"False positive for: {path} -> {result}"
+
+
+def test_replace_file_paths_in_sentence():
+    text = "Edit the file at /etc/config.yaml and restart."
+    proc_text = "Edit the file at *PATH* and restart."
+    assert cleantext.replace_file_paths(text, "*PATH*") == proc_text
+
+
+def test_replace_windows_path_in_sentence():
+    text = "Open C:\\Users\\Admin\\Desktop\\report.pdf to view."
+    proc_text = "Open *PATH* to view."
+    assert cleantext.replace_file_paths(text, "*PATH*") == proc_text
+
+
+def test_replace_file_paths_preserves_regular_text():
+    text = "No paths here, just regular text."
+    assert cleantext.replace_file_paths(text, "*PATH*") == text
+
+
+def test_clean_no_code():
+    text = "Use `foo()` here."
+    result = cleantext.clean(text, no_code=True, lower=False, to_ascii=False, fix_unicode=False)
+    assert "`foo()`" not in result
+    assert "<CODE>" in result
+
+
+def test_clean_no_file_paths():
+    text = "Edit /etc/nginx/nginx.conf now."
+    result = cleantext.clean(text, no_file_paths=True, lower=False, to_ascii=False, fix_unicode=False)
+    assert "/etc/nginx/nginx.conf" not in result
+    assert "<FILE_PATH>" in result
+
+
+def test_clean_code_before_urls():
+    text = "See:\n```\nhttp://example.com\n```\nEnd."
+    result = cleantext.clean(text, no_code=True, no_urls=True, lower=False, to_ascii=False, fix_unicode=False)
+    assert "<URL>" not in result
+    assert "<CODE>" in result
+
+
 def test_remove_trail_leading_whitespace():
     text_input = """
     Sehr geehrte Damen und Herren,

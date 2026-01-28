@@ -149,3 +149,18 @@ strange_single_quotes = ["‘", "‛", "’", "❛", "❜", "`", "´", "‘", "�
 
 DOUBLE_QUOTE_REGEX = re.compile("|".join(strange_double_quotes))
 SINGLE_QUOTE_REGEX = re.compile("|".join(strange_single_quotes))
+
+CODE_REGEX = re.compile(
+    r"(`{3,})\w*\n[\s\S]*?\1"  # fenced code blocks (```lang\n...\n```)
+    r"|"
+    r"`[^`\n]+`",  # inline code (`...`)
+)
+
+FILE_PATH_REGEX = re.compile(
+    r"(?:(?<=\s)|^)(?:~|\.\.?)(?:/[\w.@+-]+)+(?=\s|$)"  # ~/docs, ./src, ../lib
+    r"|"
+    r"(?:(?<=\s)|^)(?:/[\w.@+-]+){2,}(?=\s|$)"  # /usr/local/bin (2+ segments)
+    r"|"
+    r"(?:(?<=\s)|^)[A-Za-z]:\\(?:[\w.@+-]+\\)*[\w.@+-]+(?=\s|$)",  # C:\Users\Name
+    flags=re.MULTILINE,
+)
