@@ -159,22 +159,7 @@ cleaner.transform(['Happily clean your text!', 'Another Input'])
 
 [Use poetry.](https://python-poetry.org/)
 
-### Releasing a new version
-
-1. Update the version in both `pyproject.toml` and `cleantext/__init__.py`.
-2. Move the "Unreleased" entries in `CHANGELOG.md` under a new heading with the version number and date.
-3. Commit the version bump:
-   ```bash
-   git add pyproject.toml cleantext/__init__.py CHANGELOG.md
-   git commit -m "Release vX.Y.Z"
-   git tag vX.Y.Z
-   git push origin main --tags
-   ```
-4. Build and publish to PyPI:
-   ```bash
-   poetry build
-   poetry publish
-   ```
+See [RELEASING.md](RELEASING.md) for how to publish a new version.
 
 ## Contributing
 
