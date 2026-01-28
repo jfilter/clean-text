@@ -54,17 +54,51 @@ _IPV4_PATTERN = (
 _HEX_GROUP = r"[0-9a-fA-F]{1,4}"
 
 _IPV6_PATTERN = (
-    r"(?:" + _HEX_GROUP + r":){7}" + _HEX_GROUP
-    + r"|(?:" + _HEX_GROUP + r":){1,7}:"
-    + r"|(?:" + _HEX_GROUP + r":){1,6}:" + _HEX_GROUP
-    + r"|(?:" + _HEX_GROUP + r":){1,5}(?::" + _HEX_GROUP + r"){1,2}"
-    + r"|(?:" + _HEX_GROUP + r":){1,4}(?::" + _HEX_GROUP + r"){1,3}"
-    + r"|(?:" + _HEX_GROUP + r":){1,3}(?::" + _HEX_GROUP + r"){1,4}"
-    + r"|(?:" + _HEX_GROUP + r":){1,2}(?::" + _HEX_GROUP + r"){1,5}"
-    + r"|" + _HEX_GROUP + r":(?::" + _HEX_GROUP + r"){1,6}"
-    + r"|:(?::" + _HEX_GROUP + r"){1,7}"
-    + r"|::(?:ffff(?::0{1,4})?:)?" + _IPV4_PATTERN
-    + r"|(?:" + _HEX_GROUP + r":){1,4}:" + _IPV4_PATTERN
+    r"(?:"
+    + _HEX_GROUP
+    + r":){7}"
+    + _HEX_GROUP
+    + r"|(?:"
+    + _HEX_GROUP
+    + r":){1,7}:"
+    + r"|(?:"
+    + _HEX_GROUP
+    + r":){1,6}:"
+    + _HEX_GROUP
+    + r"|(?:"
+    + _HEX_GROUP
+    + r":){1,5}(?::"
+    + _HEX_GROUP
+    + r"){1,2}"
+    + r"|(?:"
+    + _HEX_GROUP
+    + r":){1,4}(?::"
+    + _HEX_GROUP
+    + r"){1,3}"
+    + r"|(?:"
+    + _HEX_GROUP
+    + r":){1,3}(?::"
+    + _HEX_GROUP
+    + r"){1,4}"
+    + r"|(?:"
+    + _HEX_GROUP
+    + r":){1,2}(?::"
+    + _HEX_GROUP
+    + r"){1,5}"
+    + r"|"
+    + _HEX_GROUP
+    + r":(?::"
+    + _HEX_GROUP
+    + r"){1,6}"
+    + r"|:(?::"
+    + _HEX_GROUP
+    + r"){1,7}"
+    + r"|::(?:ffff(?::0{1,4})?:)?"
+    + _IPV4_PATTERN
+    + r"|(?:"
+    + _HEX_GROUP
+    + r":){1,4}:"
+    + _IPV4_PATTERN
     + r"|::"
 )
 
