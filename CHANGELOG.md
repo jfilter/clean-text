@@ -7,13 +7,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Addded
+### Added
 
--   Add pipline for scikit-learn by [sadra-barikbin](https://github.com/sadra-barikbin) ([#21](https://github.com/jfilter/clean-text/issues/21))
+-   Add `clean_texts()` function for batch cleaning with multiprocessing support ([#20](https://github.com/jfilter/clean-text/issues/20))
+-   Add code snippet and file path filters ([#23](https://github.com/jfilter/clean-text/issues/23))
+-   Add option to remove IP addresses ([#34](https://github.com/jfilter/clean-text/issues/34))
+-   Add language support for Danish, Spanish, Faroese, French, Icelandic, Italian, Norwegian, Scandinavian, and Swedish ([#36](https://github.com/jfilter/clean-text/issues/36))
+-   Add regex exceptions to `clean()` ([#19](https://github.com/jfilter/clean-text/issues/19))
+
+### Fixed
+
+-   Fix phone numbers with 00 international prefix ([#10](https://github.com/jfilter/clean-text/issues/10))
+-   Fix number replacement regex ([#29](https://github.com/jfilter/clean-text/issues/29), [#27](https://github.com/jfilter/clean-text/issues/27), [#33](https://github.com/jfilter/clean-text/issues/33))
+
+### Changed
+
+-   Improve scikit-learn compatibility for `CleanTransformer` ([#31](https://github.com/jfilter/clean-text/issues/31))
+-   Use emoji module's recommended APIs for emoji 2.x
+-   Update emoji and pandas dependency constraints ([#37](https://github.com/jfilter/clean-text/issues/37), [#38](https://github.com/jfilter/clean-text/issues/38))
+-   Bump scikit-learn minimum to >=1.5.0 (security fix)
+-   Modernize project tooling: replace black + pylint with ruff, update CI to Python 3.9–3.13
+-   Drop Python 3.6–3.8, require Python >=3.9
+
+## [0.6.0]
+
+### Added
+
+-   Add pipeline for scikit-learn by [sadra-barikbin](https://github.com/sadra-barikbin) ([#21](https://github.com/jfilter/clean-text/issues/21))
+-   Add utility function to remove substrings from text
 
 ### Changed
 
 -   Drop Python 3.6, support Python 3.10
+-   Improve documentation
+-   Rename default branch from `master` to `main`
 
 ## [0.5.0] - 2021-08-31
 
