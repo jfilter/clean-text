@@ -149,37 +149,6 @@ files = [
 
 [[package]]
 name = "numpy"
-version = "1.22.4"
-description = "NumPy is the fundamental package for array computing with Python."
-optional = false
-python-versions = ">=3.8"
-files = [
-    {file = "numpy-1.22.4-cp310-cp310-macosx_10_14_x86_64.whl", hash = "sha256:ba9ead61dfb5d971d77b6c131a9dbee62294a932bf6a356e48c75ae684e635b3"},
-    {file = "numpy-1.22.4-cp310-cp310-macosx_10_15_x86_64.whl", hash = "sha256:1ce7ab2053e36c0a71e7a13a7475bd3b1f54750b4b433adc96313e127b870887"},
-    {file = "numpy-1.22.4-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:7228ad13744f63575b3a972d7ee4fd61815b2879998e70930d4ccf9ec721dce0"},
-    {file = "numpy-1.22.4-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:43a8ca7391b626b4c4fe20aefe79fec683279e31e7c79716863b4b25021e0e74"},
-    {file = "numpy-1.22.4-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:a911e317e8c826ea632205e63ed8507e0dc877dcdc49744584dfc363df9ca08c"},
-    {file = "numpy-1.22.4-cp310-cp310-win32.whl", hash = "sha256:9ce7df0abeabe7fbd8ccbf343dc0db72f68549856b863ae3dd580255d009648e"},
-    {file = "numpy-1.22.4-cp310-cp310-win_amd64.whl", hash = "sha256:3e1ffa4748168e1cc8d3cde93f006fe92b5421396221a02f2274aab6ac83b077"},
-    {file = "numpy-1.22.4-cp38-cp38-macosx_10_15_x86_64.whl", hash = "sha256:59d55e634968b8f77d3fd674a3cf0b96e85147cd6556ec64ade018f27e9479e1"},
-    {file = "numpy-1.22.4-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:c1d937820db6e43bec43e8d016b9b3165dcb42892ea9f106c70fb13d430ffe72"},
-    {file = "numpy-1.22.4-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:d4c5d5eb2ec8da0b4f50c9a843393971f31f1d60be87e0fb0917a49133d257d6"},
-    {file = "numpy-1.22.4-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:64f56fc53a2d18b1924abd15745e30d82a5782b2cab3429aceecc6875bd5add0"},
-    {file = "numpy-1.22.4-cp38-cp38-win32.whl", hash = "sha256:fb7a980c81dd932381f8228a426df8aeb70d59bbcda2af075b627bbc50207cba"},
-    {file = "numpy-1.22.4-cp38-cp38-win_amd64.whl", hash = "sha256:e96d7f3096a36c8754207ab89d4b3282ba7b49ea140e4973591852c77d09eb76"},
-    {file = "numpy-1.22.4-cp39-cp39-macosx_10_14_x86_64.whl", hash = "sha256:4c6036521f11a731ce0648f10c18ae66d7143865f19f7299943c985cdc95afb5"},
-    {file = "numpy-1.22.4-cp39-cp39-macosx_10_15_x86_64.whl", hash = "sha256:b89bf9b94b3d624e7bb480344e91f68c1c6c75f026ed6755955117de00917a7c"},
-    {file = "numpy-1.22.4-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:2d487e06ecbf1dc2f18e7efce82ded4f705f4bd0cd02677ffccfb39e5c284c7e"},
-    {file = "numpy-1.22.4-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:f3eb268dbd5cfaffd9448113539e44e2dd1c5ca9ce25576f7c04a5453edc26fa"},
-    {file = "numpy-1.22.4-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:37431a77ceb9307c28382c9773da9f306435135fae6b80b62a11c53cfedd8802"},
-    {file = "numpy-1.22.4-cp39-cp39-win32.whl", hash = "sha256:cc7f00008eb7d3f2489fca6f334ec19ca63e31371be28fd5dad955b16ec285bd"},
-    {file = "numpy-1.22.4-cp39-cp39-win_amd64.whl", hash = "sha256:f0725df166cf4785c0bc4cbfb320203182b1ecd30fee6e541c8752a92df6aa32"},
-    {file = "numpy-1.22.4-pp38-pypy38_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:0791fbd1e43bf74b3502133207e378901272f3c156c4df4954cad833b1380207"},
-    {file = "numpy-1.22.4.zip", hash = "sha256:425b390e4619f58d8526b3dcf656dde069133ae5c240229821f01b5f44ea07af"},
-]
-
-[[package]]
-name = "numpy"
 version = "2.0.2"
 description = "Fundamental package for array computing in Python"
 optional = false
@@ -645,6 +614,69 @@ doc = ["jupyterlite-pyodide-kernel", "jupyterlite-sphinx (>=0.12.0)", "jupytext"
 test = ["array-api-strict", "asv", "gmpy2", "hypothesis (>=6.30)", "mpmath", "pooch", "pytest", "pytest-cov", "pytest-timeout", "pytest-xdist", "scikit-umfpack", "threadpoolctl"]
 
 [[package]]
+name = "scipy"
+version = "1.15.3"
+description = "Fundamental algorithms for scientific computing in Python"
+optional = false
+python-versions = ">=3.10"
+files = [
+    {file = "scipy-1.15.3-cp310-cp310-macosx_10_13_x86_64.whl", hash = "sha256:a345928c86d535060c9c2b25e71e87c39ab2f22fc96e9636bd74d1dbf9de448c"},
+    {file = "scipy-1.15.3-cp310-cp310-macosx_12_0_arm64.whl", hash = "sha256:ad3432cb0f9ed87477a8d97f03b763fd1d57709f1bbde3c9369b1dff5503b253"},
+    {file = "scipy-1.15.3-cp310-cp310-macosx_14_0_arm64.whl", hash = "sha256:aef683a9ae6eb00728a542b796f52a5477b78252edede72b8327a886ab63293f"},
+    {file = "scipy-1.15.3-cp310-cp310-macosx_14_0_x86_64.whl", hash = "sha256:1c832e1bd78dea67d5c16f786681b28dd695a8cb1fb90af2e27580d3d0967e92"},
+    {file = "scipy-1.15.3-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:263961f658ce2165bbd7b99fa5135195c3a12d9bef045345016b8b50c315cb82"},
+    {file = "scipy-1.15.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:9e2abc762b0811e09a0d3258abee2d98e0c703eee49464ce0069590846f31d40"},
+    {file = "scipy-1.15.3-cp310-cp310-musllinux_1_2_aarch64.whl", hash = "sha256:ed7284b21a7a0c8f1b6e5977ac05396c0d008b89e05498c8b7e8f4a1423bba0e"},
+    {file = "scipy-1.15.3-cp310-cp310-musllinux_1_2_x86_64.whl", hash = "sha256:5380741e53df2c566f4d234b100a484b420af85deb39ea35a1cc1be84ff53a5c"},
+    {file = "scipy-1.15.3-cp310-cp310-win_amd64.whl", hash = "sha256:9d61e97b186a57350f6d6fd72640f9e99d5a4a2b8fbf4b9ee9a841eab327dc13"},
+    {file = "scipy-1.15.3-cp311-cp311-macosx_10_13_x86_64.whl", hash = "sha256:993439ce220d25e3696d1b23b233dd010169b62f6456488567e830654ee37a6b"},
+    {file = "scipy-1.15.3-cp311-cp311-macosx_12_0_arm64.whl", hash = "sha256:34716e281f181a02341ddeaad584205bd2fd3c242063bd3423d61ac259ca7eba"},
+    {file = "scipy-1.15.3-cp311-cp311-macosx_14_0_arm64.whl", hash = "sha256:3b0334816afb8b91dab859281b1b9786934392aa3d527cd847e41bb6f45bee65"},
+    {file = "scipy-1.15.3-cp311-cp311-macosx_14_0_x86_64.whl", hash = "sha256:6db907c7368e3092e24919b5e31c76998b0ce1684d51a90943cb0ed1b4ffd6c1"},
+    {file = "scipy-1.15.3-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:721d6b4ef5dc82ca8968c25b111e307083d7ca9091bc38163fb89243e85e3889"},
+    {file = "scipy-1.15.3-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:39cb9c62e471b1bb3750066ecc3a3f3052b37751c7c3dfd0fd7e48900ed52982"},
+    {file = "scipy-1.15.3-cp311-cp311-musllinux_1_2_aarch64.whl", hash = "sha256:795c46999bae845966368a3c013e0e00947932d68e235702b5c3f6ea799aa8c9"},
+    {file = "scipy-1.15.3-cp311-cp311-musllinux_1_2_x86_64.whl", hash = "sha256:18aaacb735ab38b38db42cb01f6b92a2d0d4b6aabefeb07f02849e47f8fb3594"},
+    {file = "scipy-1.15.3-cp311-cp311-win_amd64.whl", hash = "sha256:ae48a786a28412d744c62fd7816a4118ef97e5be0bee968ce8f0a2fba7acf3bb"},
+    {file = "scipy-1.15.3-cp312-cp312-macosx_10_13_x86_64.whl", hash = "sha256:6ac6310fdbfb7aa6612408bd2f07295bcbd3fda00d2d702178434751fe48e019"},
+    {file = "scipy-1.15.3-cp312-cp312-macosx_12_0_arm64.whl", hash = "sha256:185cd3d6d05ca4b44a8f1595af87f9c372bb6acf9c808e99aa3e9aa03bd98cf6"},
+    {file = "scipy-1.15.3-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:05dc6abcd105e1a29f95eada46d4a3f251743cfd7d3ae8ddb4088047f24ea477"},
+    {file = "scipy-1.15.3-cp312-cp312-macosx_14_0_x86_64.whl", hash = "sha256:06efcba926324df1696931a57a176c80848ccd67ce6ad020c810736bfd58eb1c"},
+    {file = "scipy-1.15.3-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:c05045d8b9bfd807ee1b9f38761993297b10b245f012b11b13b91ba8945f7e45"},
+    {file = "scipy-1.15.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:271e3713e645149ea5ea3e97b57fdab61ce61333f97cfae392c28ba786f9bb49"},
+    {file = "scipy-1.15.3-cp312-cp312-musllinux_1_2_aarch64.whl", hash = "sha256:6cfd56fc1a8e53f6e89ba3a7a7251f7396412d655bca2aa5611c8ec9a6784a1e"},
+    {file = "scipy-1.15.3-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:0ff17c0bb1cb32952c09217d8d1eed9b53d1463e5f1dd6052c7857f83127d539"},
+    {file = "scipy-1.15.3-cp312-cp312-win_amd64.whl", hash = "sha256:52092bc0472cfd17df49ff17e70624345efece4e1a12b23783a1ac59a1b728ed"},
+    {file = "scipy-1.15.3-cp313-cp313-macosx_10_13_x86_64.whl", hash = "sha256:2c620736bcc334782e24d173c0fdbb7590a0a436d2fdf39310a8902505008759"},
+    {file = "scipy-1.15.3-cp313-cp313-macosx_12_0_arm64.whl", hash = "sha256:7e11270a000969409d37ed399585ee530b9ef6aa99d50c019de4cb01e8e54e62"},
+    {file = "scipy-1.15.3-cp313-cp313-macosx_14_0_arm64.whl", hash = "sha256:8c9ed3ba2c8a2ce098163a9bdb26f891746d02136995df25227a20e71c396ebb"},
+    {file = "scipy-1.15.3-cp313-cp313-macosx_14_0_x86_64.whl", hash = "sha256:0bdd905264c0c9cfa74a4772cdb2070171790381a5c4d312c973382fc6eaf730"},
+    {file = "scipy-1.15.3-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:79167bba085c31f38603e11a267d862957cbb3ce018d8b38f79ac043bc92d825"},
+    {file = "scipy-1.15.3-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:c9deabd6d547aee2c9a81dee6cc96c6d7e9a9b1953f74850c179f91fdc729cb7"},
+    {file = "scipy-1.15.3-cp313-cp313-musllinux_1_2_aarch64.whl", hash = "sha256:dde4fc32993071ac0c7dd2d82569e544f0bdaff66269cb475e0f369adad13f11"},
+    {file = "scipy-1.15.3-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:f77f853d584e72e874d87357ad70f44b437331507d1c311457bed8ed2b956126"},
+    {file = "scipy-1.15.3-cp313-cp313-win_amd64.whl", hash = "sha256:b90ab29d0c37ec9bf55424c064312930ca5f4bde15ee8619ee44e69319aab163"},
+    {file = "scipy-1.15.3-cp313-cp313t-macosx_10_13_x86_64.whl", hash = "sha256:3ac07623267feb3ae308487c260ac684b32ea35fd81e12845039952f558047b8"},
+    {file = "scipy-1.15.3-cp313-cp313t-macosx_12_0_arm64.whl", hash = "sha256:6487aa99c2a3d509a5227d9a5e889ff05830a06b2ce08ec30df6d79db5fcd5c5"},
+    {file = "scipy-1.15.3-cp313-cp313t-macosx_14_0_arm64.whl", hash = "sha256:50f9e62461c95d933d5c5ef4a1f2ebf9a2b4e83b0db374cb3f1de104d935922e"},
+    {file = "scipy-1.15.3-cp313-cp313t-macosx_14_0_x86_64.whl", hash = "sha256:14ed70039d182f411ffc74789a16df3835e05dc469b898233a245cdfd7f162cb"},
+    {file = "scipy-1.15.3-cp313-cp313t-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:0a769105537aa07a69468a0eefcd121be52006db61cdd8cac8a0e68980bbb723"},
+    {file = "scipy-1.15.3-cp313-cp313t-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:9db984639887e3dffb3928d118145ffe40eff2fa40cb241a306ec57c219ebbbb"},
+    {file = "scipy-1.15.3-cp313-cp313t-musllinux_1_2_aarch64.whl", hash = "sha256:40e54d5c7e7ebf1aa596c374c49fa3135f04648a0caabcb66c52884b943f02b4"},
+    {file = "scipy-1.15.3-cp313-cp313t-musllinux_1_2_x86_64.whl", hash = "sha256:5e721fed53187e71d0ccf382b6bf977644c533e506c4d33c3fb24de89f5c3ed5"},
+    {file = "scipy-1.15.3-cp313-cp313t-win_amd64.whl", hash = "sha256:76ad1fb5f8752eabf0fa02e4cc0336b4e8f021e2d5f061ed37d6d264db35e3ca"},
+    {file = "scipy-1.15.3.tar.gz", hash = "sha256:eae3cf522bc7df64b42cad3925c876e1b0b6c35c1337c93e12c0f366f55b0eaf"},
+]
+
+[package.dependencies]
+numpy = ">=1.23.5,<2.5"
+
+[package.extras]
+dev = ["cython-lint (>=0.12.2)", "doit (>=0.36.0)", "mypy (==1.10.0)", "pycodestyle", "pydevtool", "rich-click", "ruff (>=0.0.292)", "types-psutil", "typing_extensions"]
+doc = ["intersphinx_registry", "jupyterlite-pyodide-kernel", "jupyterlite-sphinx (>=0.19.1)", "jupytext", "matplotlib (>=3.5)", "myst-nb", "numpydoc", "pooch", "pydata-sphinx-theme (>=0.15.2)", "sphinx (>=5.0.0,<8.0.0)", "sphinx-copybutton", "sphinx-design (>=0.4.0)"]
+test = ["Cython", "array-api-strict (>=2.0,<2.1.1)", "asv", "gmpy2", "hypothesis (>=6.30)", "meson", "mpmath", "ninja", "pooch", "pytest", "pytest-cov", "pytest-timeout", "pytest-xdist", "scikit-umfpack", "threadpoolctl"]
+
+[[package]]
 name = "six"
 version = "1.17.0"
 description = "Python 2 and 3 compatibility utilities"
@@ -792,9 +824,9 @@ files = [
 
 [extras]
 gpl = ["unidecode"]
-sklearn = ["pandas", "scikit-learn"]
+sklearn = ["pandas", "scikit-learn", "scipy", "scipy"]
 
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9"
-content-hash = "5f242298c94cff4ff2d21711852fe526c7bddec60216c1285a0c637764f74d70"
+content-hash = "23fa46bc2f8acd5b37b9f117cff4f14e45c692a32586cbd1a5490bbf74823db2"
