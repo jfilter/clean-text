@@ -531,3 +531,149 @@ def test_clean_texts_generator_input():
     gen = (t for t in ["hello", "world"])
     result = cleantext.clean_texts(gen)
     assert result == [cleantext.clean("hello"), cleantext.clean("world")]
+
+
+# ---------------------------------------------------------------------------
+# exceptions tests
+# ---------------------------------------------------------------------------
+
+
+def test_exception_preserve_hyphenated_word():
+    """Core issue #19 use case: keep hyphens in compound words with no_punct."""
+    result = cleantext.clean("drive-thru is great", no_punct=True, exceptions=["drive-thru"])
+    assert "drive-thru" in result
+
+
+def test_exception_regex_pattern():
+    """Regex pattern preserves multiple compound words."""
+    result = cleantext.clean(
+        "drive-thru and pick-up and text---cleaning",
+        no_punct=True,
+        exceptions=[r"\w+-\w+"],
+    )
+    assert "drive-thru" in result
+    assert "pick-up" in result
+    # triple dash is not \w+-\w+, so it should be cleaned
+    assert "---" not in result
+
+
+def test_exception_none_default():
+    """None exceptions should behave like no exceptions."""
+    text = "hello, world!"
+    assert cleantext.clean(text, exceptions=None) == cleantext.clean(text)
+
+
+def test_exception_empty_list():
+    """Empty list should behave like no exceptions."""
+    text = "hello, world!"
+    assert cleantext.clean(text, exceptions=[]) == cleantext.clean(text)
+
+
+def test_exception_survives_lowercase():
+    """Exception text preserved verbatim even when lower=True."""
+    result = cleantext.clean("Keep My-Case here", lower=True, no_punct=True, exceptions=["My-Case"])
+    assert "My-Case" in result
+
+
+def test_exception_survives_ascii_conversion():
+    """Exception text preserved through to_ascii step."""
+    result = cleantext.clean("café-latte is nice", to_ascii=True, no_punct=True, exceptions=["café-latte"])
+    assert "café-latte" in result
+
+
+def test_exception_survives_digit_replacement():
+    """Exception text preserved through digit replacement."""
+    result = cleantext.clean("version-3.2 is out", no_digits=True, no_punct=True, exceptions=[r"version-3\.2"])
+    assert "version-3.2" in result
+
+
+def test_exception_survives_number_replacement():
+    """Exception text preserved through number replacement."""
+    result = cleantext.clean("build-42 released", no_numbers=True, no_punct=True, exceptions=[r"build-42"])
+    assert "build-42" in result
+
+
+def test_exception_survives_url_replacement():
+    """Exception text preserved through URL replacement."""
+    result = cleantext.clean(
+        "visit http://keep-me.com today",
+        no_urls=True,
+        exceptions=[r"http://keep-me\.com"],
+    )
+    assert "http://keep-me.com" in result
+
+
+def test_exception_multiple_patterns():
+    """Multiple exception patterns each protect their matches."""
+    result = cleantext.clean(
+        "drive-thru and $100",
+        no_punct=True,
+        no_currency_symbols=True,
+        exceptions=[r"\w+-\w+", r"\$\d+"],
+    )
+    assert "drive-thru" in result
+    assert "$100" in result
+
+
+def test_exception_multiple_matches_one_pattern():
+    """One pattern can match multiple spans."""
+    result = cleantext.clean(
+        "a-b and c-d and e-f",
+        no_punct=True,
+        exceptions=[r"\w+-\w+"],
+    )
+    assert "a-b" in result
+    assert "c-d" in result
+    assert "e-f" in result
+
+
+def test_exception_no_match_pattern():
+    """A pattern that matches nothing has no effect."""
+    text = "hello world"
+    assert cleantext.clean(text, exceptions=["zzzzz"]) == cleantext.clean(text)
+
+
+def test_exception_clean_texts_sequential():
+    """clean_texts passes exceptions through (sequential)."""
+    texts = ["drive-thru", "pick-up"]
+    result = cleantext.clean_texts(texts, n_jobs=1, no_punct=True, exceptions=[r"\w+-\w+"])
+    assert "drive-thru" in result[0]
+    assert "pick-up" in result[1]
+
+
+def test_exception_clean_texts_parallel():
+    """clean_texts passes exceptions through (parallel)."""
+    texts = ["drive-thru", "pick-up", "one-two"]
+    result = cleantext.clean_texts(texts, n_jobs=2, no_punct=True, exceptions=[r"\w+-\w+"])
+    assert "drive-thru" in result[0]
+    assert "pick-up" in result[1]
+    assert "one-two" in result[2]
+
+
+def test_exception_clean_transformer():
+    """CleanTransformer passes exceptions through."""
+    from cleantext.sklearn import CleanTransformer
+
+    ct = CleanTransformer(no_punct=True, exceptions=[r"\w+-\w+"])
+    result = ct.transform(["drive-thru is great"])
+    assert "drive-thru" in result[0]
+
+
+def test_exception_clean_transformer_get_params():
+    """CleanTransformer.get_params includes exceptions."""
+    from cleantext.sklearn import CleanTransformer
+
+    ct = CleanTransformer(exceptions=[r"\w+-\w+"])
+    params = ct.get_params()
+    assert params["exceptions"] == [r"\w+-\w+"]
+
+
+def test_exception_clean_transformer_clone():
+    """CleanTransformer can be cloned with exceptions."""
+    from sklearn.base import clone
+    from cleantext.sklearn import CleanTransformer
+
+    ct = CleanTransformer(no_punct=True, exceptions=[r"\w+-\w+"])
+    ct2 = clone(ct)
+    result = ct2.transform(["drive-thru is great"])
+    assert "drive-thru" in result[0]

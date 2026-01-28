@@ -46,6 +46,7 @@ class CleanTransformer(TransformerMixin, BaseEstimator):
         replace_with_currency_symbol="<CUR>",
         replace_with_punct="",
         lang="en",
+        exceptions=None,
     ):
         """
         All parameters are same as the :term:`clean` function.
@@ -79,6 +80,7 @@ class CleanTransformer(TransformerMixin, BaseEstimator):
         self.replace_with_currency_symbol = replace_with_currency_symbol
         self.replace_with_punct = replace_with_punct
         self.lang = lang
+        self.exceptions = exceptions
 
     def fit(self, X: Any, y=None):
         """

@@ -224,6 +224,49 @@ def remove_emoji(text):
     return emoji.replace_emoji(text, replace="")
 
 
+def _encode_index(n):
+    """Encode a non-negative integer as a base-26 lowercase letter string.
+
+    0 → 'a', 1 → 'b', ..., 25 → 'z', 26 → 'ba', 27 → 'bb', ...
+    """
+    if n < 0:
+        raise ValueError("n must be non-negative")
+    letters = []
+    while True:
+        letters.append(chr(ord("a") + n % 26))
+        n = n // 26 - 1
+        if n < 0:
+            break
+    return "".join(reversed(letters))
+
+
+def _protect_exceptions(text, exceptions):
+    """Replace regex-matched spans with inert placeholder tokens.
+
+    Returns ``(modified_text, originals)`` where *originals* is a list of
+    ``(placeholder, original_text)`` tuples needed by :func:`_restore_exceptions`.
+    """
+    originals = []
+    counter = 0
+    for pattern in exceptions:
+        compiled = re.compile(pattern)
+        matches = list(compiled.finditer(text))
+        # replace from back to front so indices stay valid
+        for m in reversed(matches):
+            placeholder = "zxzexcept" + _encode_index(counter) + "zxz"
+            originals.append((placeholder, m.group()))
+            text = text[: m.start()] + placeholder + text[m.end() :]
+            counter += 1
+    return text, originals
+
+
+def _restore_exceptions(text, originals):
+    """Replace placeholder tokens with their original strings."""
+    for placeholder, original in originals:
+        text = text.replace(placeholder, original)
+    return text
+
+
 def clean(
     text,
     fix_unicode=True,
@@ -255,6 +298,7 @@ def clean(
     replace_with_currency_symbol="<CUR>",
     replace_with_punct="",
     lang="en",
+    exceptions=None,
 ):
     """
     Normalize various aspects of a raw text. A convenience function for applying all other
@@ -299,6 +343,8 @@ def clean(
             French ('fr'), German ('de'), Icelandic ('is'), Italian ('it'),
             Norwegian ('no'), Scandinavian ('sv'), Spanish ('es'),
             and Swedish ('se') are supported
+        exceptions (list[str]): list of regex pattern strings whose matches
+            will be preserved verbatim through all cleaning steps.
 
     Returns:
         str: input ``text`` processed according to function args
@@ -308,6 +354,8 @@ def clean(
         return ""
 
     text = str(text)
+
+    text, _exc_originals = _protect_exceptions(text, exceptions or [])
 
     if fix_unicode:
         text = fix_bad_unicode(text)
@@ -345,6 +393,8 @@ def clean(
 
     if normalize_whitespace:
         text = _normalize_whitespace(text, no_line_breaks, strip_lines, keep_two_line_breaks)
+
+    text = _restore_exceptions(text, _exc_originals)
 
     return text
 
@@ -405,6 +455,7 @@ def clean_texts(
     replace_with_currency_symbol="<CUR>",
     replace_with_punct="",
     lang="en",
+    exceptions=None,
 ):
     """Clean a list of texts, optionally in parallel using multiprocessing.
 
@@ -453,6 +504,7 @@ def clean_texts(
         replace_with_currency_symbol=replace_with_currency_symbol,
         replace_with_punct=replace_with_punct,
         lang=lang,
+        exceptions=exceptions,
     )
 
     worker = partial(clean, **kwargs)

@@ -63,6 +63,7 @@ clean("some input",
     no_currency_symbols=False,      # replace all currency symbols with a special token
     no_punct=False,                 # remove punctuations
     replace_with_punct="",          # instead of removing punctuations you may replace them
+    exceptions=None,                # list of regex patterns to preserve verbatim
     replace_with_code="<CODE>",
     replace_with_url="<URL>",
     replace_with_email="<EMAIL>",
@@ -77,6 +78,29 @@ clean("some input",
 ```
 
 Carefully choose the arguments that fit your task. The default parameters are listed above.
+
+### Preserving patterns with exceptions
+
+Use `exceptions` to protect specific text patterns from being modified during cleaning.
+Each entry is a regex pattern string; all matches are preserved **verbatim** (not lowered, not
+transliterated — exactly as they appeared in the input).
+
+```python
+from cleantext import clean
+
+# Preserve a literal compound word while removing other punctuation
+clean("drive-thru and text---cleaning", no_punct=True, exceptions=["drive-thru"])
+# => 'drive-thru and textcleaning'
+
+# Preserve all hyphenated compound words using a regex
+clean("drive-thru and pick-up", no_punct=True, exceptions=[r"\w+-\w+"])
+# => 'drive-thru and pick-up'
+
+# Multiple exception patterns
+clean("drive-thru costs $5", no_punct=True, no_currency_symbols=True,
+      exceptions=[r"\w+-\w+", r"\$\d+"])
+# => 'drive-thru costs $5'
+```
 
 You may also only use specific functions for cleaning. For this, take a look at the [source code](https://github.com/jfilter/clean-text/blob/main/cleantext/clean.py).
 
