@@ -652,6 +652,7 @@ def test_exception_clean_texts_parallel():
 
 def test_exception_clean_transformer():
     """CleanTransformer passes exceptions through."""
+    pytest.importorskip("sklearn")
     from cleantext.sklearn import CleanTransformer
 
     ct = CleanTransformer(no_punct=True, exceptions=[r"\w+-\w+"])
@@ -661,6 +662,7 @@ def test_exception_clean_transformer():
 
 def test_exception_clean_transformer_get_params():
     """CleanTransformer.get_params includes exceptions."""
+    pytest.importorskip("sklearn")
     from cleantext.sklearn import CleanTransformer
 
     ct = CleanTransformer(exceptions=[r"\w+-\w+"])
@@ -670,7 +672,9 @@ def test_exception_clean_transformer_get_params():
 
 def test_exception_clean_transformer_clone():
     """CleanTransformer can be cloned with exceptions."""
+    pytest.importorskip("sklearn")
     from sklearn.base import clone
+
     from cleantext.sklearn import CleanTransformer
 
     ct = CleanTransformer(no_punct=True, exceptions=[r"\w+-\w+"])
