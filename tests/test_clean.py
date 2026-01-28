@@ -1,3 +1,5 @@
+import pytest
+
 import cleantext
 
 
@@ -449,3 +451,83 @@ Mit freundlichen Grüßen"""
         no_line_breaks=False,
         keep_two_line_breaks=True,
     )
+
+
+# ---------------------------------------------------------------------------
+# clean_texts tests
+# ---------------------------------------------------------------------------
+
+
+def test_clean_texts_basic():
+    texts = ["Hello, World!", "Foo   Bar"]
+    result = cleantext.clean_texts(texts)
+    assert result == [cleantext.clean(t) for t in texts]
+
+
+def test_clean_texts_empty_list():
+    assert cleantext.clean_texts([]) == []
+
+
+def test_clean_texts_single_item():
+    result = cleantext.clean_texts(["Hello!"])
+    assert result == [cleantext.clean("Hello!")]
+
+
+def test_clean_texts_order_preserved():
+    texts = ["z text", "a text", "m text"]
+    result = cleantext.clean_texts(texts, n_jobs=2)
+    assert result == [cleantext.clean(t) for t in texts]
+
+
+def test_clean_texts_kwargs_passthrough():
+    texts = ["Visit http://example.com", "Straße in München"]
+    result = cleantext.clean_texts(texts, no_urls=True, lang="de")
+    expected = [cleantext.clean(t, no_urls=True, lang="de") for t in texts]
+    assert result == expected
+
+
+def test_clean_texts_n_jobs_none():
+    texts = ["hello", "world"]
+    result = cleantext.clean_texts(texts, n_jobs=None)
+    assert result == [cleantext.clean(t) for t in texts]
+
+
+def test_clean_texts_n_jobs_minus_one():
+    texts = ["hello", "world", "foo"]
+    result = cleantext.clean_texts(texts, n_jobs=-1)
+    assert result == [cleantext.clean(t) for t in texts]
+
+
+def test_clean_texts_n_jobs_zero():
+    with pytest.raises(ValueError):
+        cleantext.clean_texts(["hello"], n_jobs=0)
+
+
+def test_clean_texts_n_jobs_exceeds_len():
+    texts = ["hello", "world"]
+    result = cleantext.clean_texts(texts, n_jobs=100)
+    assert result == [cleantext.clean(t) for t in texts]
+
+
+def test_clean_texts_parallel_matches_sequential():
+    texts = [
+        "Hello World!",
+        "Visit http://example.com today",
+        "Price is $100",
+        None,
+        "Äpfel und Birnen",
+    ]
+    seq = cleantext.clean_texts(texts, n_jobs=1)
+    par = cleantext.clean_texts(texts, n_jobs=2)
+    assert seq == par
+
+
+def test_clean_texts_none_items():
+    result = cleantext.clean_texts([None, "hello", None])
+    assert result == ["", cleantext.clean("hello"), ""]
+
+
+def test_clean_texts_generator_input():
+    gen = (t for t in ["hello", "world"])
+    result = cleantext.clean_texts(gen)
+    assert result == [cleantext.clean("hello"), cleantext.clean("world")]

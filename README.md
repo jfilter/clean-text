@@ -80,6 +80,33 @@ Carefully choose the arguments that fit your task. The default parameters are li
 
 You may also only use specific functions for cleaning. For this, take a look at the [source code](https://github.com/jfilter/clean-text/blob/main/cleantext/clean.py).
 
+### Cleaning multiple texts in parallel
+
+Use `clean_texts()` to clean a list of strings. Set `n_jobs` to enable parallel processing via Python's built-in `multiprocessing`:
+
+```python
+from cleantext import clean_texts
+
+# Sequential (default) — no multiprocessing overhead
+clean_texts(["text one", "text two", "text three"])
+
+# Use all available CPU cores
+clean_texts(["text one", "text two", "text three"], n_jobs=-1)
+
+# Use a specific number of workers
+clean_texts(["text one", "text two", "text three"], n_jobs=4)
+
+# All clean() keyword arguments are supported
+clean_texts(texts, n_jobs=-1, no_urls=True, lang="de", lower=False)
+```
+
+`n_jobs` semantics:
+- `1` or `None` — sequential processing (default, zero overhead)
+- `-1` — use all available CPU cores
+- `-2` — use all cores except one, etc.
+- Any positive integer — use exactly that many workers
+- `0` — raises `ValueError`
+
 ### Supported languages
 
 So far, only English and German are fully supported.
