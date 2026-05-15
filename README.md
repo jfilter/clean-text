@@ -62,6 +62,7 @@ clean("some input",
     no_digits=False,                # replace all digits with a special token
     no_currency_symbols=False,      # replace all currency symbols with a special token
     no_punct=False,                 # remove punctuations
+    no_emoji=False,                 # remove emojis
     replace_with_punct="",          # instead of removing punctuations you may replace them
     exceptions=None,                # list of regex patterns to preserve verbatim
     replace_with_code="<CODE>",
