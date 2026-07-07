@@ -127,6 +127,14 @@ def replace_urls(text, replace_with="<URL>"):
     """
     Replace all URLs in ``text`` str with ``replace_with`` str.
     """
+    CJK = r'[\u4e00-\u9fff\u3040-\u30ff]'  # CJK Unicode ranges: \u4e00-\u9fff (Chinese/Japanese Kanji), \u3040-\u30ff (Hiragana/Katakana)
+    B = r'[^\s，。？！；：、（）【】「」“”‘’\)\]\}]'
+    text = re.sub(
+        r'(' + B + r'*?' + CJK + B + r'*?https?://' + B + r'*|' +
+        B + r'*?https?://' + B + r'*?' + CJK + B + r'*)',
+        lambda m: ''.join(re.findall(CJK, m.group(1))) + replace_with,
+        text
+    )
     return constants.URL_REGEX.sub(replace_with, text)
 
 

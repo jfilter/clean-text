@@ -30,6 +30,30 @@ def test_replace_urls():
         assert cleantext.replace_urls(text, "*URL*") == proc_text
 
 
+def test_replace_CJK_urls():
+    texts = [
+        [
+            "请点击http://www.example.com查看内容",
+            "请点击查看内容*URL*",
+        ],
+        [
+            "http://www.tie你好ba.com",
+            "你好*URL*",
+        ],
+        [
+            "こんにちはhttp://example.com/テスト",
+            "こんにちはテスト*URL*",
+        ],
+        [
+            "前部http://leetcode.com後ろにある",
+            "前部後ろにある*URL*",
+        ],
+    ]
+
+    for text, proc_text in texts:
+        assert cleantext.replace_urls(text, "*URL*") == proc_text
+
+
 email_addresses = [
     "mustermann@fh-aachen.de",
     "mustermann(at)fh-aachen.de",
