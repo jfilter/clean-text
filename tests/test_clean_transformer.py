@@ -1,4 +1,6 @@
-try:
+from contextlib import suppress
+
+with suppress(ImportError):
     import pandas as pd
     import pytest
 
@@ -32,5 +34,3 @@ try:
     def test_fit():
         transformer.fit(["sample1", "sample2"], [0, 1])
         transformer.partial_fit(["sample1", "sample2"])
-except ImportError:
-    pass

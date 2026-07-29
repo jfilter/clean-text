@@ -2,7 +2,7 @@
 Pipeline transformer for scikit-learn to clean text
 """
 
-from typing import Any, Union
+from typing import Any
 
 import pandas as pd
 from sklearn.base import BaseEstimator, TransformerMixin
@@ -82,19 +82,19 @@ class CleanTransformer(TransformerMixin, BaseEstimator):
         self.lang = lang
         self.exceptions = exceptions
 
-    def fit(self, X: Any, y=None):
+    def fit(self, X: Any, _y=None):
         """
         This method is defined for compatibility. It does nothing.
         """
         return self
 
-    def partial_fit(self, X: Any, y=None):
+    def partial_fit(self, X: Any, _y=None):
         """
         This method is defined for compatibility. It does nothing.
         """
         return self
 
-    def transform(self, X: Union[list[str], pd.Series]) -> Union[list[str], pd.Series]:
+    def transform(self, X: list[str] | pd.Series) -> list[str] | pd.Series:
         """
         Normalize various aspects of each item in raw text array-like.
         Args:
@@ -105,12 +105,12 @@ class CleanTransformer(TransformerMixin, BaseEstimator):
         """
         if not (isinstance(X, list) or isinstance(X, pd.Series)):
             raise ValueError("The input must be a list or pd.Series")
+        params = self.get_params()
         if isinstance(X, pd.Series):
-            return X.apply(lambda text: clean(text, **self.get_params()))
-        else:
-            return list(map(lambda text: clean(text, **self.get_params()), X))
+            return X.apply(lambda text: clean(text, **params))
+        return [clean(text, **params) for text in X]
 
-    def get_feature_names_out(self, feature_names_out=None):
+    def get_feature_names_out(self, _feature_names_out=None):
         """
         For compatibility with scikit-learn Pipeline objects.
         This transformer will only return one column, which is ``'Clean Text``.

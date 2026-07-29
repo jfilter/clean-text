@@ -191,8 +191,8 @@ def test_fix_bad_unicode():
     text = "and install a \\u2018new\\u2019 society in their"  # and install a ‘new’ society in their
     assert cleantext.fix_bad_unicode(text) == "and install a 'new' society in their"
 
-    assert "všetko" == cleantext.fix_bad_unicode("všetko")
-    assert "Všetko" == cleantext.fix_bad_unicode("Všetko")
+    assert cleantext.fix_bad_unicode("všetko") == "všetko"
+    assert cleantext.fix_bad_unicode("Všetko") == "Všetko"
 
 
 def test_zero_digits():

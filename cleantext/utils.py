@@ -2,8 +2,10 @@
 Generic text processing functions.
 """
 
+from collections.abc import Iterable
 
-def remove_substrings(text, to_replace, replace_with=""):
+
+def remove_substrings(text: str, to_replace: str | Iterable[str], replace_with: str = "") -> str:
     """
     Remove (or replace) substrings from a text.
     Args:

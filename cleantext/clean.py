@@ -6,6 +6,7 @@ import logging
 import os
 import re
 import sys
+from contextlib import suppress
 from functools import partial
 from multiprocessing import Pool
 from unicodedata import category
@@ -60,10 +61,8 @@ def fix_bad_unicode(text, normalization="NFC"):
             with three periods
     """
     # trying to fix backslash-replaced strings (via https://stackoverflow.com/a/57192592/4028896)
-    try:
+    with suppress(Exception):
         text = text.encode("latin", "backslashreplace").decode("unicode-escape")
-    except Exception:
-        pass
 
     return fix_text(text, normalization=normalization)
 
@@ -180,8 +179,7 @@ def replace_currency_symbols(text, replace_with="<CUR>"):
         for k, v in constants.CURRENCIES.items():
             text = text.replace(k, v)
         return text
-    else:
-        return constants.CURRENCY_REGEX.sub(replace_with, text)
+    return constants.CURRENCY_REGEX.sub(replace_with, text)
 
 
 def replace_punct(text, replace_with=" "):
@@ -474,42 +472,42 @@ def clean_texts(
     texts = list(texts)
     n_jobs = _resolve_n_jobs(n_jobs)
 
-    kwargs = dict(
-        fix_unicode=fix_unicode,
-        to_ascii=to_ascii,
-        lower=lower,
-        normalize_whitespace=normalize_whitespace,
-        no_line_breaks=no_line_breaks,
-        strip_lines=strip_lines,
-        keep_two_line_breaks=keep_two_line_breaks,
-        no_code=no_code,
-        no_urls=no_urls,
-        no_emails=no_emails,
-        no_phone_numbers=no_phone_numbers,
-        no_ip_addresses=no_ip_addresses,
-        no_file_paths=no_file_paths,
-        no_numbers=no_numbers,
-        no_digits=no_digits,
-        no_currency_symbols=no_currency_symbols,
-        no_punct=no_punct,
-        no_emoji=no_emoji,
-        replace_with_code=replace_with_code,
-        replace_with_url=replace_with_url,
-        replace_with_email=replace_with_email,
-        replace_with_phone_number=replace_with_phone_number,
-        replace_with_ip_address=replace_with_ip_address,
-        replace_with_file_path=replace_with_file_path,
-        replace_with_number=replace_with_number,
-        replace_with_digit=replace_with_digit,
-        replace_with_currency_symbol=replace_with_currency_symbol,
-        replace_with_punct=replace_with_punct,
-        lang=lang,
-        exceptions=exceptions,
-    )
+    kwargs = {
+        "fix_unicode": fix_unicode,
+        "to_ascii": to_ascii,
+        "lower": lower,
+        "normalize_whitespace": normalize_whitespace,
+        "no_line_breaks": no_line_breaks,
+        "strip_lines": strip_lines,
+        "keep_two_line_breaks": keep_two_line_breaks,
+        "no_code": no_code,
+        "no_urls": no_urls,
+        "no_emails": no_emails,
+        "no_phone_numbers": no_phone_numbers,
+        "no_ip_addresses": no_ip_addresses,
+        "no_file_paths": no_file_paths,
+        "no_numbers": no_numbers,
+        "no_digits": no_digits,
+        "no_currency_symbols": no_currency_symbols,
+        "no_punct": no_punct,
+        "no_emoji": no_emoji,
+        "replace_with_code": replace_with_code,
+        "replace_with_url": replace_with_url,
+        "replace_with_email": replace_with_email,
+        "replace_with_phone_number": replace_with_phone_number,
+        "replace_with_ip_address": replace_with_ip_address,
+        "replace_with_file_path": replace_with_file_path,
+        "replace_with_number": replace_with_number,
+        "replace_with_digit": replace_with_digit,
+        "replace_with_currency_symbol": replace_with_currency_symbol,
+        "replace_with_punct": replace_with_punct,
+        "lang": lang,
+        "exceptions": exceptions,
+    }
 
     worker = partial(clean, **kwargs)
 
-    if n_jobs == 1 or len(texts) == 0:
+    if n_jobs == 1 or not texts:
         return [worker(t) for t in texts]
 
     with Pool(processes=min(n_jobs, len(texts))) as pool:

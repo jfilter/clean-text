@@ -15,7 +15,7 @@ import time
 # Suppress noisy warnings from worker processes (e.g. unidecode fallback)
 logging.disable(logging.WARNING)
 
-from cleantext import clean, clean_texts
+from cleantext import clean_texts  # noqa: E402
 
 # ── sample data ──────────────────────────────────────────────────────────────
 
@@ -32,16 +32,16 @@ SAMPLE_TEXTS = [
     "»Yóù àré     rïght &lt;3!«  🤔 🙈 emoji test 👩🏾\u200d🎓",
 ]
 
-KWARGS = dict(
-    no_urls=True,
-    no_emails=True,
-    no_phone_numbers=True,
-    no_ip_addresses=True,
-    no_file_paths=True,
-    no_code=True,
-    no_currency_symbols=True,
-    lang="de",
-)
+KWARGS = {
+    "no_urls": True,
+    "no_emails": True,
+    "no_phone_numbers": True,
+    "no_ip_addresses": True,
+    "no_file_paths": True,
+    "no_code": True,
+    "no_currency_symbols": True,
+    "lang": "de",
+}
 
 
 def build_corpus(n):
@@ -50,7 +50,7 @@ def build_corpus(n):
     return SAMPLE_TEXTS * repeats + SAMPLE_TEXTS[:remainder]
 
 
-def bench(corpus, n_jobs, warmup=False):
+def bench(corpus, n_jobs, _warmup=False):
     """Time a single clean_texts() call and return elapsed seconds."""
     start = time.perf_counter()
     result = clean_texts(corpus, n_jobs=n_jobs, **KWARGS)
@@ -91,7 +91,7 @@ def main():
         seq = clean_texts(corpus, n_jobs=1, **KWARGS)
         par = clean_texts(corpus, n_jobs=-1, **KWARGS)
         assert seq == par, "MISMATCH between sequential and parallel results!"
-        print(f"  ✓ sequential == parallel output verified")
+        print("  ✓ sequential == parallel output verified")
         print()
 
 

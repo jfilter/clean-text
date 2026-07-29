@@ -135,7 +135,7 @@ def save_replace(text, lang, back=False):
     )
     for pattern, target in possibilities:
         if back:
-            text = text.replace(escape_sequence + target + escape_sequence, pattern)
+            text = text.replace(f"{escape_sequence}{target}{escape_sequence}", pattern)
         else:
-            text = text.replace(pattern, escape_sequence + target + escape_sequence)
+            text = text.replace(pattern, f"{escape_sequence}{target}{escape_sequence}")
     return text
